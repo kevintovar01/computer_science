@@ -30,33 +30,50 @@ class HashTrasformation:
 
 
 
-    def hash_function_square(K):
-        squared = K ** 2
-        digit_count = len(str(N))
-        
-        middle_digits = get_middle_digits(squared, digit_count)
-        
+    def hash_function_square(self, value):
+        prime_below = self.prime_below()
+        squared = value ** 2
+        digit_count = len(str(prime_below))
+
+        middle_digits = self.get_middle_digits(squared, digit_count)
+
         if len(str(middle_digits)) > digit_count:
             middle_digits = int(str(squared)[:digit_count])
-        
+
         # Si el cuadrado es igual a N, forzamos el dígito izquierdo a 0
-        if squared == N:
+        if squared == prime_below:
             middle_digits = int(str(squared)[:1])
-        
-        return (middle_digits % N) 
+
+        return (middle_digits % prime_below) + 1
+        #self.insert(index, value) 
 
 
-    def hash_function_fold_multiplicative(K):
-        group_size = 2  # Dividir en grupos de 2 dígitos
-        key_groups = split_into_groups(K, group_size)
+    def hash_function_fold_multiplicative(self, value):
+        prime_below = self.prime_below()
+        group_size = len(str(prime_below))  # Dividir en grupos con los mismos digitos dependiendo del N ingresado
+        key_groups = self.split_into_groups(value, group_size)
         
         hash_value = 1
         for group in key_groups:
             hash_value *= group
         
-        hash_value %= N
+        hash_value %= self.memory
+        return (hash_value % self.memory) + 1
+        #self.insert(index,value)
         
-        return (hash_value % N) + 1
+
+    def hash_function_fold_additive(self, value):
+        prime_below = self.prime_below()
+        group_size = len(str(prime_below))  # Dividir en grupos con los mismos digitos dependiendo del N ingresado
+        key_groups = self.split_into_groups(value, group_size)
+        
+        hash_value = 0
+        for group in key_groups:
+            hash_value += group
+        
+        hash_value %= self.memory
+        
+        return (hash_value % self.memory) + 1
 
 
     def hash_truncamiento(value, len_list):
@@ -70,9 +87,6 @@ class HashTrasformation:
                 break
         return index
     
-
-    
-
     
     def is_prime(self, num):
         if num <= 1:
@@ -95,6 +109,31 @@ class HashTrasformation:
             prime -= 1
         return prime
     
-    def print_list(self):
-        print(self.memory)
-        print(self.colisions) 
+    def key_value(self):
+        my_dict = {value:self.memory.index(value) for value in self.memory if value != None}
+        return my_dict
+    
+    def print_all(self):
+        print("Memory: ", self.memory)
+        print(f"Colisiones: {len(self.colisions)}", self.colisions)
+        print("valor:clave : ", self.key_value())
+
+    def get_middle_digits(self, num, digit_count):
+        num_str = str(num)
+        total_digits = len(num_str)
+
+        if digit_count > total_digits:
+            raise ValueError("El número de dígitos requeridos es mayor que el número de dígitos en el número.")
+
+        start = (total_digits - digit_count) // 2
+
+        if total_digits % 2 == 1 and digit_count % 2 == 0:
+            start -= 1  # Restar 1 en lugar de sumar 1
+
+        end = start + digit_count
+
+        return int(num_str[start:end])
+    
+    def split_into_groups(self, key, group_size):
+        key_str = str(key)
+        return [int(key_str[i:i+group_size]) for i in range(0, len(key_str), group_size)]
