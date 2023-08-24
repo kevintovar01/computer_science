@@ -1,5 +1,4 @@
 from bubble_sort import bubble_sort
-import random
 
 def binary_search(my_list, objective):
 
@@ -17,20 +16,3 @@ def binary_search(my_list, objective):
             right = medio-1
     
     return -1
-
-
-
-def run():
-    
-    my_list = [random.randint(1, 100) for i in range(31)]
-
-    my_list = bubble_sort(my_list)
-    
-    print(my_list)
-    objective = int(input("What element do you want to find?: "))
-    result = binary_search(my_list, objective)
-    print(f"result found, objective: {objective}" if result != -1 else "result not found"  )
-
-
-if __name__ == '__main__':
-    run()

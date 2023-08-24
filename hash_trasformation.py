@@ -2,6 +2,7 @@
 
 class HashTrasformation:
     def __init__(self, lenght) -> None:
+        self.lenght = lenght
         self.memory = [None]*lenght
         self.colisions = []
 
@@ -57,8 +58,8 @@ class HashTrasformation:
         for group in key_groups:
             hash_value *= group
         
-        hash_value %= self.memory
-        return (hash_value % self.memory) + 1
+        hash_value %= self.lenght
+        return (hash_value % self.lenght) + 1
         #self.insert(index,value)
         
 
@@ -73,18 +74,14 @@ class HashTrasformation:
         
         hash_value %= self.memory
         
-        return (hash_value % self.memory) + 1
+        return (hash_value % self.lenght) + 1
 
 
-    def hash_truncamiento(value, len_list):
-        truncate = ''.join(map(str, [ord(i) for i in value]))
-        while True:
-            code = [truncate[i] for i in range(len(str(len_list))) if i%2 == 0]
-            index = int(''.join(map(str, code))) + 1
-            if index >  len_list:
-                truncate = value[len(str(len_list)):]
-            else:
-                break
+    #3022 --  32+1 ==33 2230 -- 23+1 =24  234523 -- 242+1
+    def hash_truncamiento(self, value):
+        element = str(value)
+        code = [element[i] for i in range(len(str(self.lenght))) if i%2 == 0]
+        index = int(''.join(map(str, code))) + 1
         return index
     
     
@@ -104,7 +101,7 @@ class HashTrasformation:
 
 
     def prime_below(self):
-        prime = len(self.memory)
+        prime = self.lenght
         while not self.is_prime(prime):
             prime -= 1
         return prime
@@ -127,9 +124,6 @@ class HashTrasformation:
 
         start = (total_digits - digit_count) // 2
 
-        if total_digits % 2 == 1 and digit_count % 2 == 0:
-            start -= 1  # Restar 1 en lugar de sumar 1
-
         end = start + digit_count
 
         return int(num_str[start:end])
@@ -137,3 +131,7 @@ class HashTrasformation:
     def split_into_groups(self, key, group_size):
         key_str = str(key)
         return [int(key_str[i:i+group_size]) for i in range(0, len(key_str), group_size)]
+    
+    def reset_list(self):
+        self.memory = []
+        self.memory = [None] * self.lenght
