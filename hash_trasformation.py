@@ -5,20 +5,30 @@ class HashTrasformation:
         self.memory = [None]*lenght
         self.colisions = []
 
+    def search(self, value, function_hash):
+        index = function_hash(value) -1
+
+        if self.memory[index] == value:
+            print("El número", value, "fue encontrado en la posición", index)
+        else:
+            print("El número", value, "no se encontró en la lista.")
     
-    def insert(self, index, value):
-        
+    def insert(self, value, function_hash):
+        index = function_hash(value)
         if self.memory[index-1] is not None:
-            print("presenta colision")
-            self.colision.append(value)
+            print("presenta colisions")
+            self.colisions.append(value)
         else:
             self.memory[index-1] = value
 
 
     def hash_function(self, value): #value --> k and prime_below --> n
         prime_below = self.prime_below()
-        index = (value % prime_below) + 1
-        self.insert(index)
+        return (value % prime_below) + 1
+        # self.insert(index, value)
+
+
+
 
     def hash_function_square(K):
         squared = K ** 2
@@ -59,6 +69,8 @@ class HashTrasformation:
             else:
                 break
         return index
+    
+
     
 
     
