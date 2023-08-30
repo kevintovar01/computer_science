@@ -72,7 +72,7 @@ class HashTrasformation:
         for group in key_groups:
             hash_value += group
         
-        hash_value %= self.memory
+        # hash_value %= self.memory
         
         return (hash_value % self.lenght) + 1
 

@@ -23,6 +23,8 @@ class Huffman:
     def aignar_nodo(self):
         sorted_items = sorted(self.probabilitys.items(), key=lambda x: x[1])#sort ascending
 
+        print(sorted_items)
+
         for data, valor in sorted_items: #for each value we are create a node
             self.nodos.append(Node(valor, data))
 
@@ -30,8 +32,10 @@ class Huffman:
         
         while len(self.nodos) > 1:
             
+            
             nodo1 = self.nodos.pop(0)  #delete node of the lists for create other new
             nodo2 = self.nodos.pop(0)
+
 
             new_node = Node(nodo1.probability+nodo2.probability)  #sum the probabilities
 
