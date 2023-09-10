@@ -50,7 +50,9 @@ def hash_fuction(function_hash, name_function, my_hash):
         except ValueError:
             print("Valor incorrecto por favor intente de nuevo")
     
-    return 
+    return
+
+ 
 
 
 if __name__ == '__main__':
