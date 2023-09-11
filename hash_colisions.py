@@ -25,8 +25,8 @@ class HashColision:
         memory[index] = value
 
 
-    def arreglo_anidado(self, memory, value):
+    def arreglo_anidado(self, memory, index, value=None):
         pass
 
-    def lista_encadenada(self, memory, value):
+    def lista_encadenada(self, memory, index, value=None):
         pass
