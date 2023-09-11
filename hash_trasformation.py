@@ -1,4 +1,4 @@
-# como hacer un asobre carga de un operador como en un lenguaje c o c++
+from hash_colisions import HashColision
 
 class HashTrasformation:
     def __init__(self, lenght) -> None:
@@ -6,29 +6,39 @@ class HashTrasformation:
         self.memory = [None]*lenght
         self.colisions = []
 
-    def search(self, value, function_hash):
+    def search(self, value, function_hash, funtion_colision):
         index = function_hash(value) -1
 
         if self.memory[index] == value:
             print("El número", value, "fue encontrado en la posición", index)
         else:
-            print("El número", value, "no se encontró en la lista.")
+            index = funtion_colision(self.memory, index, value)        
+            print("El número", value, f"fue encontrado en la posición {index}" if index != None else "No se encuentra en la memoria")
     
-    def insert(self, value, function_hash):
-        index = function_hash(value)
-        if self.memory[index-1] is not None:
-            print("presenta colisions")
+
+    def insert(self, value, function_hash, funtion_colision):
+        index = function_hash(value)-1
+
+        if not None in self.memory:
+            print("Espacio insuficiente")
+            return
+    
+        if self.memory[index] == value:
+            print(f'Esta clave "{value}" ya se encuentra en la lista')
+            return
+        elif self.memory[index] is not None:
+            print(f"presenta colision la clave {value}")
+            index = funtion_colision(self.memory, index)
+            self.memory[index] = value
             self.colisions.append(value)
         else:
-            self.memory[index-1] = value
+            self.memory[index] = value
 
 
     def hash_function(self, value): #value --> k and prime_below --> n
         prime_below = self.prime_below()
         return (value % prime_below) + 1
         # self.insert(index, value)
-
-
 
 
     def hash_function_square(self, value):
