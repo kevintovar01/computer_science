@@ -5,6 +5,7 @@ class HashTrasformation:
         self.lenght = lenght
         self.memory = [None]*lenght
         self.colisions = []
+        self.anidado = [[None for i in range(lenght)] for i in range(lenght)]
 
     def search(self, value, function_hash, funtion_colision):
         index = function_hash(value) -1
