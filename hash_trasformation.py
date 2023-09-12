@@ -130,7 +130,7 @@ class HashTrasformation:
         prime = self.lenght
         while not self.is_prime(prime):
             prime -= 1
-        return 10
+        return prime
     
     def key_value(self):
         my_dict = {value:self.memory.index(value) for value in self.memory if value != None}
