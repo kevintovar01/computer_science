@@ -26,7 +26,7 @@ def hash_menu(function_hash, name_function, funtion_colision, my_hash):
                 [6] - ver elementos con colision
                 [7] - ver todo
                 [8] - cambiar rango(cantidad digitos)
-            [cualquier valor] - salir 
+            [cualquier valor] - atras 
             
             Option: """)
         os.system('cls')

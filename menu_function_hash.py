@@ -52,7 +52,6 @@ def menu_hash_function(my_hash):
                 my_hash.reset_list()
             else:        
                 os.system('cls')
-                print('salida exitosa')
-                break
+                return True, "Salida Exitosa"
         except ValueError:
             print("Por favor ingrese un valor valido")

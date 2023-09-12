@@ -11,12 +11,13 @@ class HashColision:
                 return (aux+i)%len(memory)
         
 
-    def square_colision(self, memory, value, index):
+    def square_colision(self, memory, index, value=None):
         aux = index
         for i in range(len(memory)):
-            if memory[(aux+(i^2))%len(memory)] is None:
-                memory[(aux+(i^2))%len(memory)] = value
-                break
+            if value != None and value == memory[(aux+(i^2))%len(memory)]:
+                return (aux+(i**2))%len(memory)
+            elif memory[(aux+(i**2))%len(memory)] is None and value == None:
+                return (aux+(i**2))%len(memory)
 
 
     def doble_direccion_hash(self, memory, value, index):

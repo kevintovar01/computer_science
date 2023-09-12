@@ -38,12 +38,14 @@ class HashTrasformation:
 
     def hash_function(self, value): #value --> k and prime_below --> n
         prime_below = self.prime_below()
+
         return (value % prime_below) + 1
         # self.insert(index, value)
 
 
     def hash_function_square(self, value):
         prime_below = self.prime_below()
+       
         squared = value ** 2
         digit_count = len(str(prime_below))
 
@@ -115,7 +117,7 @@ class HashTrasformation:
         prime = self.lenght
         while not self.is_prime(prime):
             prime -= 1
-        return prime
+        return 10
     
     def key_value(self):
         my_dict = {value:self.memory.index(value) for value in self.memory if value != None}

@@ -12,7 +12,7 @@ def menu_hash_colisions(colisions):
                 [3] - doble direccion hash
                 [4] - arreglo anidado
                 [5] - lista encadenada
-            [cualquier valor] - salir 
+            [cualquier valor] - Atras 
             
             Option: """)
         os.system('cls')
@@ -37,8 +37,7 @@ def menu_hash_colisions(colisions):
             elif option == '5':
                 return colision_hash['lista encadenada'], 'lista encadenada'
             else:
-                my_hash.reset_list()
-                break
+                return True, "Salida Exitosa"
         except ValueError:
             print("Valor incorrecto por favor intente de nuevo")
     
