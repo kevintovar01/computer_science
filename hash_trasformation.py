@@ -4,8 +4,10 @@ class HashTrasformation:
     def __init__(self, lenght) -> None:
         self.lenght = lenght
         self.memory = [None]*lenght
-        self.colisions = []
+        self.colisions = set({})
         self.anidado = [[None for i in range(lenght)] for i in range(lenght)]
+        self.cadena =  {i:[] for i in range(lenght)}
+        self.key = None
 
     def search(self, value, function_hash, funtion_colision):
         index = function_hash(value) -1
@@ -17,23 +19,33 @@ class HashTrasformation:
             print("El número", value, f"fue encontrado en la posición {index}" if index != None else "No se encuentra en la memoria")
     
 
-    def insert(self, value, function_hash, funtion_colision):
+    def insert(self, value, function_hash, funtion_colision, name_colision):
+        
+            
         index = function_hash(value)-1
+        self.key = value
 
         if not None in self.memory:
             print("Espacio insuficiente")
             return
+        
     
-        if self.memory[index] == value:
+        if self.memory[index] == value or value in self.colisions:
             print(f'Esta clave "{value}" ya se encuentra en la lista')
             return
         elif self.memory[index] is not None:
             print(f"presenta colision la clave {value}")
             index = funtion_colision(self.memory, index)
-            self.memory[index] = value
-            self.colisions.append(value)
+            if index != None: 
+                self.memory[index] = value
+            self.colisions.add(value)
         else:
+            # if name_colision ==  'lista encadenada':   
+            #     diccionario_actual = self.cadena[index]  # Obtén el diccionario actual
+            #     diccionario_nuevo = {value: diccionario_actual[None]}  # Crea un nuevo diccionario con la clave actualizada
+            #     self.cadena[index] = diccionario_nuevo
             self.memory[index] = value
+ 
 
 
     def hash_function(self, value): #value --> k and prime_below --> n
@@ -96,8 +108,9 @@ class HashTrasformation:
         code = [element[i] for i in range(len(str(self.lenght))) if i%2 == 0]
         index = int(''.join(map(str, code))) + 1
         return index
-    
-    
+
+
+
     def is_prime(self, num):
         if num <= 1:
             return False
@@ -123,8 +136,16 @@ class HashTrasformation:
         my_dict = {value:self.memory.index(value) for value in self.memory if value != None}
         return my_dict
     
-    def print_all(self):
-        print("Memory: ", self.memory)
+    def print_all(self, name_colision):
+        if name_colision == 'lista encadenada':
+            print("Memory: ")
+            for i, value in enumerate(self.memory):
+                print(f"[{value}] -> {self.cadena[i]}")
+        elif name_colision == 'arreglo anidado':
+            print("Memory: ", self.anidado)
+        else:
+            print("Memory: ", self.memory)
+        
         print(f"Colisiones: {len(self.colisions)}", self.colisions)
         print("valor:clave : ", self.key_value())
 
@@ -147,4 +168,6 @@ class HashTrasformation:
     
     def reset_list(self):
         self.memory = []
+        self.colisions = set({})
         self.memory = [None] * self.lenght
+        self.cadena = {i:[] for i in range(self.lenght)}

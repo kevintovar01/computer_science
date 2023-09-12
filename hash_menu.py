@@ -7,7 +7,7 @@ from hash_colisions import HashColision
 #python libraries
 import os
 
-def hash_menu(function_hash, name_function, funtion_colision, my_hash):
+def hash_menu(function_hash, name_function, funtion_colision, my_hash, name_colision):
 
 
     range_number = int(input("Primero debes ingresar un rango(digitos) fijo para las claves: "))
@@ -38,7 +38,7 @@ def hash_menu(function_hash, name_function, funtion_colision, my_hash):
                         break
                     print(f"debe de ser de {range_number} digitos")
 
-                my_hash.insert(value, function_hash, funtion_colision)
+                my_hash.insert(value, function_hash, funtion_colision, name_colision)
 
             elif option == '2':
 
@@ -50,7 +50,7 @@ def hash_menu(function_hash, name_function, funtion_colision, my_hash):
                         break
 
                     if len(str(i)) == range_number:
-                        my_hash.insert(i, function_hash, funtion_colision)
+                        my_hash.insert(i, function_hash, funtion_colision, name_colision)
                     else:
                         print(f"Error Alguna clave tiene digitos menores o mayores a {range_number} por favor intente de nuevo")                    
 
@@ -58,13 +58,21 @@ def hash_menu(function_hash, name_function, funtion_colision, my_hash):
                 value = int(input("Ingrese valor que desea buscar: "))
                 my_hash.search(value, function_hash, funtion_colision)
             elif option == '4':
-                print("Memory: ", my_hash.memory)
+
+                if name_colision == 'lista encadenada':
+                    for i, value in enumerate(my_hash.memory):
+                        print("Memory: ", f"[{value}] -> {my_hash.cadena[i]}")
+                elif name_colision == 'arreglo anidado':
+                    print("Memory: ", my_hash.anidado)
+                else:
+                    print("Memory: ", my_hash.memory)
+
             elif option == '5':
                 print("valor:clave: ", my_hash.key_value())
             elif option == '6':
                 print(f"colisiones {len(my_hash.colisions)}: ", my_hash.colisions)
             elif option == '7':
-                my_hash.print_all()
+                my_hash.print_all(name_colision)
             elif option == '8':
                 range_number = int(input("'tener encuenta que al cambiar se rango se reinicia la memoria' ingresa una letra para cancelar, ingrese nuevo rango: ")) 
                 my_hash.reset_list()
