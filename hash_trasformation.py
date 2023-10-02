@@ -1,27 +1,35 @@
 from hash_colisions import HashColision
 
+"""
+    In this project, the list or memory start from zero to N-1,
+    in the documentacion or example, it is intended(destinado) for a list from one to N
+"""
 class HashTrasformation:
-    def __init__(self, lenght) -> None:
-        self.lenght = lenght
-        self.memory = [None]*lenght
+    def __init__(self, length) -> None:
+        self.length = length
+        self.memory = [None]*length
         self.colisions = set({})
-        self.anidado = [[None for i in range(lenght)] for i in range(lenght)]
-        self.cadena =  {i:[] for i in range(lenght)}
+        self.anidado = [[None for i in range(length)] for i in range(length)]
+        self.cadena =  {i:[] for i in range(length)}
         self.key = None
+        self.prime = self.prime_below() #value --> k and prime_below --> n
+        self.order = None
+
 
     def search(self, value, function_hash, funtion_colision):
         index = function_hash(value) -1
 
         if self.memory[index] == value:
             print("El número", value, "fue encontrado en la posición", index)
+            return value, index
         else:
-            index = funtion_colision(self.memory, index, value)        
+            index = funtion_colision(self.memory, index, value)     
             print("El número", value, f"fue encontrado en la posición {index}" if index != None else "No se encuentra en la memoria")
-    
 
-    def insert(self, value, function_hash, funtion_colision, name_colision):
-        
-            
+        return value, index
+
+
+    def insert(self, value, function_hash, funtion_colision, name_colision):     
         index = function_hash(value)-1
         self.key = value
 
@@ -29,7 +37,6 @@ class HashTrasformation:
             print("Espacio insuficiente")
             return
         
-    
         if self.memory[index] == value or value in self.colisions:
             print(f'Esta clave "{value}" ya se encuentra en la lista')
             return
@@ -40,26 +47,59 @@ class HashTrasformation:
                 self.memory[index] = value
             self.colisions.add(value)
         else:
-            # if name_colision ==  'lista encadenada':   
-            #     diccionario_actual = self.cadena[index]  # Obtén el diccionario actual
-            #     diccionario_nuevo = {value: diccionario_actual[None]}  # Crea un nuevo diccionario con la clave actualizada
-            #     self.cadena[index] = diccionario_nuevo
             self.memory[index] = value
- 
+    
+
+    def delete(self, value, function_hash, funtion_colision, name_colision):
+        value, index = self.search(value, function_hash, funtion_colision)
+
+        if index == None:
+            return
+        
+        if name_colision == 'arreglo anidado':
+            try:
+                self.anidado[index].remove(value)
+                self.anidado[index].append(None)
+            except:
+                if self.anidado[index] != None:
+                    self.memory[index] = self.anidado[index][0]
+                    self.anidado[index][0] = None
+                else:
+                    self.memory[index] = None  
+        elif name_colision == 'lista encadenada':
+            try:
+                self.cadena[index].remove(value)
+            except:
+                if len(self.cadena[index]) > 0:
+                    self.memory[index] = self.cadena[index][0]
+                    self.cadena[index].pop(0)
+                else:
+                    self.memory[index] = None               
+        else:
+            self.memory[index] = None
+
+        print(f"Clave {value} eliminado")
+
+    """
+        Modulo Hash Funtion: division  The formula: H(K) = (K mod N) + 1
+        N should be the nearest(mas cercano) prime(N size of the array)    
+    """
+    def hash_function(self, value): 
+        return (value % self.prime) + 1 #H(K) = (K mod N) + 1
 
 
-    def hash_function(self, value): #value --> k and prime_below --> n
-        prime_below = self.prime_below()
-
-        return (value % prime_below) + 1
-        # self.insert(index, value)
-
-
+    """
+        Hash Fuction Square the formula: H(K) = central_digits(K^2)+1,
+        it consists of squaring keys, then selecting the central numbers and
+        adding(sumarle) one at the end. example:
+    
+        N = 100 K = 7256
+        H(K) = central_digits(526"93"081)+1 = 94
+    """
     def hash_function_square(self, value):
-        prime_below = self.prime_below()
        
         squared = value ** 2
-        digit_count = len(str(prime_below))
+        digit_count = len(str(self.prime))
 
         middle_digits = self.get_middle_digits(squared, digit_count)
 
@@ -67,49 +107,64 @@ class HashTrasformation:
             middle_digits = int(str(squared)[:digit_count])
 
         # Si el cuadrado es igual a N, forzamos el dígito izquierdo a 0
-        if squared == prime_below:
+        if squared == self.prime:
             middle_digits = int(str(squared)[:1])
 
-        return (middle_digits % prime_below) + 1
-        #self.insert(index, value) 
+        return (middle_digits % self.prime) + 1
 
 
-    def hash_function_fold_multiplicative(self, value):
-        prime_below = self.prime_below()
-        group_size = len(str(prime_below))  # Dividir en grupos con los mismos digitos dependiendo del N ingresado
-        key_groups = self.split_into_groups(value, group_size)
+    """
+        Fold Hash Fuction the fomule: H(K) = digmensig([k]/2) + 1
+
+        example: 
+        N = 100 K = 7259
+        H(K) = digmensig(72 + 59) + 1 --> = (digmensig(131) + 1 = 32
         
+        only two digits are taken for the result
+        and the same used multiplication
+
+    """
+    def hash_function_fold_multiplicative(self, value):
+        key_groups = self.split_into_groups(value)
         hash_value = 1
         for group in key_groups:
             hash_value *= group
-        
-        hash_value %= self.lenght
-        return (hash_value % self.lenght) + 1
-        #self.insert(index,value)
+     
+        return (hash_value % self.length) + 1
         
 
-    def hash_function_fold_additive(self, value):
-        prime_below = self.prime_below()
-        group_size = len(str(prime_below))  # Dividir en grupos con los mismos digitos dependiendo del N ingresado
-        key_groups = self.split_into_groups(value, group_size)
-        
-        hash_value = 0
-        for group in key_groups:
-            hash_value += group
-        
-        # hash_value %= self.memory
-        
-        return (hash_value % self.lenght) + 1
+    def hash_function_fold_additive(self, value): 
+        groups = self.split_into_groups(value)
+        return (sum(groups) % self.length) + 1
 
+    """
+        Hash Function consist in taking certain digits of the value and 
+        form a key, the formula is: H(K) = select_digits(d1, d2, .. dn)
 
-    #3022 --  32+1 ==33 2230 -- 23+1 =24  234523 -- 242+1
+        The selection of these digits must be even and odd
+
+        Example:
+            H(K) = select_digits(7259) + 1 = 75+1 = 76 - even digits 
+                            or
+            H(K) = select_digits(7259) + 1 = 29+1 = 76 - odd digits
+    """
     def hash_truncamiento(self, value):
         element = str(value)
-        code = [element[i] for i in range(len(str(self.lenght))) if i%2 == 0]
+        code = [element[i] for i in range(len(str(self.length))+1) if i%2 == self.order]
         index = int(''.join(map(str, code))) + 1
         return index
 
 
+    """
+        separate the value(Key) into groups of two using list comprehension and the 'range'
+        fuction to go through the length in steps of 2.
+    """
+    def split_into_groups(self, key):
+        key = str(key)
+        even = 2 if len(key) > 2 else 1
+        groups = [int(key[i:i+even]) for i in range(0, len(key), even)] #range: 0-2-4..., i:i+1 = 0-1,2-3,4-5...
+        return groups
+    
 
     def is_prime(self, num):
         if num <= 1:
@@ -127,7 +182,7 @@ class HashTrasformation:
 
 
     def prime_below(self):
-        prime = self.lenght
+        prime = self.length
         while not self.is_prime(prime):
             prime -= 1
         return prime
@@ -136,18 +191,23 @@ class HashTrasformation:
         my_dict = {value:self.memory.index(value) for value in self.memory if value != None}
         return my_dict
     
+
     def print_all(self, name_colision):
         if name_colision == 'lista encadenada':
             print("Memory: ")
             for i, value in enumerate(self.memory):
                 print(f"[{value}] -> {self.cadena[i]}")
         elif name_colision == 'arreglo anidado':
-            print("Memory: ", self.anidado)
+            print("Memory: ")
+            for i, value in enumerate(self.memory):
+                print(f"[{value}] -> {self.anidado[i]}")
+            # print("Memory: ", self.anidado)
         else:
             print("Memory: ", self.memory)
         
         print(f"Colisiones: {len(self.colisions)}", self.colisions)
         print("valor:clave : ", self.key_value())
+
 
     def get_middle_digits(self, num, digit_count):
         num_str = str(num)
@@ -162,12 +222,6 @@ class HashTrasformation:
 
         return int(num_str[start:end])
     
-    def split_into_groups(self, key, group_size):
-        key_str = str(key)
-        return [int(key_str[i:i+group_size]) for i in range(0, len(key_str), group_size)]
-    
+
     def reset_list(self):
-        self.memory = []
-        self.colisions = set({})
-        self.memory = [None] * self.lenght
-        self.cadena = {i:[] for i in range(self.lenght)}
+        self.__init__(self.length)

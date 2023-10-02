@@ -4,6 +4,7 @@ import random
 
 def bubble_sort(mylist):
     len_list = len(mylist)
+    aux_list = mylist
 
     for i in range(len_list):
         for j in range(len_list-i-1): #this decrements the list, for don't repeat iterations to future

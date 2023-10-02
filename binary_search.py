@@ -1,7 +1,7 @@
-
+from bubble_sort import bubble_sort 
 
 def binary_search(my_list, objective):
-
+    my_list = bubble_sort(my_list)
     left = 0
     right = len(my_list)-1
 
@@ -15,4 +15,4 @@ def binary_search(my_list, objective):
         else:
             right = medio-1
     
-    return -1
+    return None

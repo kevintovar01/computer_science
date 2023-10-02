@@ -8,9 +8,13 @@ from hash_colisions import HashColision
 import os
 
 def hash_menu(function_hash, name_function, funtion_colision, my_hash, name_colision):
-
-
-    range_number = int(input("Primero debes ingresar un rango(digitos) fijo para las claves: "))
+    while True:
+        try:
+            range_number = int(input("Primero debes ingresar un rango(digitos) fijo para las claves: "))
+            break
+        except ValueError:
+            print("Solo se permiten valores enteros")
+    
     os.system('cls')
     while True:
         option = input(f"""
@@ -20,12 +24,14 @@ def hash_menu(function_hash, name_function, funtion_colision, my_hash, name_coli
               
                 [1] - Insertar claves(uno a uno)
                 [2] - Insertar lista de claves(varios)
-                [3] - busca elementos
-                [4] - ver lista(completa)
-                [5] - ver valores y claves(los almacenados sola mente)
-                [6] - ver elementos con colision
-                [7] - ver todo
-                [8] - cambiar rango(cantidad digitos)
+                [3] - Busca elementos
+                [4] - Ver lista(completa)
+                [5] - Ver valores y claves(los almacenados sola mente)
+                [6] - Ver elementos con colision
+                [7] - Ver todo
+                [8] - Cambiar rango(cantidad digitos)
+                [9] - Eliminar clave
+                [10] - Eliminar Lista
             [cualquier valor] - atras 
             
             Option: """)
@@ -45,7 +51,7 @@ def hash_menu(function_hash, name_function, funtion_colision, my_hash, name_coli
                 values = list(map(int, input(f"Porfavor insertar las claves de forma horizontal separadas por espacios y de digitos iguales a {range_number}: ").split()))
           
                 for i in values:
-                    if len(values) > my_hash.lenght:
+                    if len(values) > my_hash.length:
                         print("Al parecer la lista que tratas de ingresar excede el espacio de memoria, vuelve a intentarlo")
                         break
 
@@ -60,10 +66,13 @@ def hash_menu(function_hash, name_function, funtion_colision, my_hash, name_coli
             elif option == '4':
 
                 if name_colision == 'lista encadenada':
+                    print("Memory: ")
                     for i, value in enumerate(my_hash.memory):
-                        print("Memory: ", f"[{value}] -> {my_hash.cadena[i]}")
+                        print(f"[{value}] -> {my_hash.cadena[i]}")
                 elif name_colision == 'arreglo anidado':
-                    print("Memory: ", my_hash.anidado)
+                    print("Memory: ")
+                    for i, value in enumerate(my_hash.memory):
+                        print(f"[{value}] -> {my_hash.anidado[i]}")
                 else:
                     print("Memory: ", my_hash.memory)
 
@@ -75,6 +84,11 @@ def hash_menu(function_hash, name_function, funtion_colision, my_hash, name_coli
                 my_hash.print_all(name_colision)
             elif option == '8':
                 range_number = int(input("'tener encuenta que al cambiar se rango se reinicia la memoria' ingresa una letra para cancelar, ingrese nuevo rango: ")) 
+                my_hash.reset_list()
+            elif option == '9':
+                value = int(input("Ingrese clave: ")) 
+                my_hash.delete(value, function_hash, funtion_colision, name_colision)
+            elif option == '10':
                 my_hash.reset_list()
             else:
                 if exit():

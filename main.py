@@ -11,8 +11,8 @@ from menu_colisions import menu_hash_colisions
 
 if __name__ == '__main__':
     
-    lenght = int(input("Ingrese el tamaño que desea para la memoria: ")) #thats going to memory to we hash
-    my_hash = HashTrasformation(lenght)
+    length = int(input("Ingrese el tamaño que desea para la memoria: ")) #thats going to memory to we hash
+    my_hash = HashTrasformation(length)
     hash_colisions = HashColision(my_hash)
 
     while True:
@@ -26,12 +26,4 @@ if __name__ == '__main__':
         funtion_colision, name_colision = menu_hash_colisions(hash_colisions)
         
         if funtion_colision != True:
-            hash_menu(function_hash, name_function, funtion_colision, my_hash, name_colision)
- 
-        
-
-
-        
-        
-
-        
+            hash_menu(function_hash, name_function, funtion_colision, my_hash, name_colision)  

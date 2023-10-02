@@ -41,14 +41,24 @@ def menu_hash_function(my_hash):
             elif option == '2':
                 return functions_hash['hash cuadrado'], 'hash cuadrado'
             elif option == '3':
+                while True:
+                    my_hash.order = input(f"Que posicion de digitos le gustaria tomar par o impar: ").lower()
+                    if my_hash.order == 'par':
+                        my_hash.order = 0
+                        break
+                    elif my_hash.order == 'impar':
+                        my_hash.order = 1
+                        break
+                    else:
+                        print("Valor incorrecto intenta de nuevo")
                 return functions_hash['hash truncamiento'], 'hash truncamiento'
             elif option == '4':
                 return functions_hash['hash plegamiento multiplicacion'], 'hash plegamiento multiplicacion'
             elif option == '5':
                 return functions_hash['hash plegamiento suma'], 'hash plegamiento suma'
             elif option == '6':
-                lenght = int(input("Ingrese el tamaño que desea para la memoria: "))
-                my_hash.lenght = lenght
+                length = int(input("Ingrese el tamaño que desea para la memoria: "))
+                my_hash.length = length
                 my_hash.reset_list()
             else:        
                 os.system('cls')
