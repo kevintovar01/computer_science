@@ -1,12 +1,12 @@
 #menu
-from hash_menu import hash_menu
+from options_menu.hash_menu import hash_menu
 
-from hash_trasformation import HashTrasformation
-from hash_colisions import HashColision
+from function_hash.hash_trasformation import HashTrasformation
+from function_hash.hash_colisions import HashColision
 
 #menu hashs
-from menu_function_hash import menu_hash_function
-from menu_colisions import menu_hash_colisions          
+from options_menu.menu_function_hash import menu_hash_function
+from options_menu.menu_colisions import menu_hash_colisions          
 
 
 if __name__ == '__main__':
