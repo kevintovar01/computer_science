@@ -1,5 +1,4 @@
 
-
 #python libraries
 import os
 
@@ -27,7 +26,7 @@ def hash_menu(function_hash, name_function, funtion_colision, my_hash, name_coli
                 [7] - Ver todo
                 [8] - Cambiar rango(cantidad digitos)
                 [9] - Eliminar clave
-                [10] - Eliminar Lista
+               [10] - Eliminar Lista
             [cualquier valor] - atras 
             
             Opcion: """)

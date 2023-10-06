@@ -7,7 +7,7 @@ import os
 def run():
     my_list = []
     
-    lenght = int(input("Ingrese el tama;o que desea para la lista: "))
+    lenght = int(input("Ingrese el tamaño que desea para la lista: "))
     while True:
         print(my_list)
         option = input(
@@ -29,7 +29,7 @@ def run():
             if option == '1':
                 my_list = [random.randint(1, 100) for i in range(lenght)]
             elif option == '2':
-                my_list = [input() for i in range(lenght)]
+                my_list = [input(f"Clave #{i}: ") for i in range(lenght)]
             elif option == '3':
                 my_list = bubble_sort(my_list)
                 objective = int(input("Que valor quieres buscar: "))

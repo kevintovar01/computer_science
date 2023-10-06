@@ -38,7 +38,12 @@ class HashTrasformation:
         if self.memory == True:
             return value, index
 
-        if not None in self.memory:
+        
+        if name_colision == 'arreglo anidado' or name_colision == 'lista encadenada' and not None in self.memory:
+            print(f"presenta colision la clave {value}")
+            funtion_colision(self.memory, index)
+            return
+        elif  not None in self.memory:
             print("Espacio insuficiente")
             return
         #pruebas saber si no solamente vesirica las colisicones

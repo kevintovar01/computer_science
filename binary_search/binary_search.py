@@ -15,4 +15,4 @@ def binary_search(my_list, objective):
         else:
             right = medio-1
     
-    return False
+    return -1
