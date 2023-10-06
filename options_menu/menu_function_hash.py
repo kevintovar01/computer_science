@@ -1,5 +1,5 @@
 #class functions
-from hash_trasformation import HashTrasformation
+from function_hash.hash_trasformation import HashTrasformation
 
 #python libraries
 import os

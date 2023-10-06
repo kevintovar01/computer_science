@@ -3,7 +3,7 @@ from function_hash.binary_search import binary_search
 class Est_Parcial:
     
     def __init__(self, cubetas, filas, tasa_expansion, tasa_reduccion, tipo_expansion):
-        self.cubetas = cubetas       
+        self.cubetas = cubetas
         self.filas = filas
         self.tasa_expansion = tasa_expansion
         self.tasa_reduccion = tasa_reduccion
@@ -62,7 +62,7 @@ class Est_Parcial:
 
 
     def expandir(self):
-        if self.tipo_expansion == "Estructura total":
+        if self.tipo_expansion == 1:
             self.cubetas = self.cubetas * 2
             self.memoria = [[0 for _ in range(self.cubetas)] for _ in range(self.filas)]
         else:
@@ -76,7 +76,6 @@ class Est_Parcial:
                 self.cubetas+=1
                 self.memoria = [[0 for _ in range(self.cubetas)] for _ in range(self.filas)]
 
-
         print(f"La tasa de Expansión ha sido superada, por lo que vamos a expandir la estructura.\nEl nuevo número de cubetas será {self.cubetas}")
         self.lista_colisiones = {i:[] for i in range(self.cubetas)}
         aux = self.historial_claves
@@ -84,12 +83,9 @@ class Est_Parcial:
         self.claves_totales = 0
 
         for i in aux:
-            self.my_hash.length = self.cubetas
             self.my_hash.prime = self.cubetas
             index = self.function_hash(i)-1
             self.agregar_clave(index,i)
-
-
 
     def eliminar_clave(self, clave):
         # Usar el método de búsqueda
@@ -125,8 +121,9 @@ class Est_Parcial:
         return True
 
 
-    def reducir(self):    
-        if self.tipo_expansion == "Estructura total":
+    def reducir(self): 
+        
+        if self.tipo_expansion == 1:
             self.cubetas = self.cubetas / 2
         else:
             aux = self.previous
@@ -145,19 +142,16 @@ class Est_Parcial:
         self.claves_totales = 0
 
         for i in aux:
-            self.my_hash.length = self.cubetas
             self.my_hash.prime = self.cubetas
             index = self.function_hash(i)-1
             self.agregar_clave(index,i)
 
-
     def get_cubetas(self):
         return self.cubetas
 
-
     def get_historial_claves(self):
         return self.historial_claves
-        
+    
 
     def imprimir_estructura(self):
         
@@ -172,4 +166,4 @@ class Est_Parcial:
         print(colisiones)
 
     def reset_list(self):
-        self.__init__(self.cubetas, self.filas, self.tasa_expansion, self.tasa_reduccion, self.tipo_expansion)
+        self.__init__(self.cubetas, self.filas, self.tasa_expansion, self.tasa_reduccion)

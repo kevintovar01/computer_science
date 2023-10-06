@@ -1,22 +1,24 @@
-from hash_colisions import HashColision
+from function_hash.hash_colisions import HashColision
 
 """
     In this project, the list or memory start from zero to N-1,
     in the documentacion or example, it is intended(destinado) for a list from one to N
 """
 class HashTrasformation:
-    def __init__(self, length) -> None:
+    def __init__(self, length, memory=None) -> None:
         self.length = length
-        self.memory = [None]*length
+        self.memory = [None]*length if memory == None else memory
         self.colisions = set({})
         self.anidado = [[None for i in range(length)] for i in range(length)]
         self.cadena =  {i:[] for i in range(length)}
         self.key = None
         self.prime = self.prime_below() #value --> k and prime_below --> n
         self.order = None
+        
+        
 
 
-    def search(self, value, function_hash, funtion_colision):
+    def search(self, value, function_hash, funtion_colision=None):
         index = function_hash(value) -1
 
         if self.memory[index] == value:
@@ -29,23 +31,28 @@ class HashTrasformation:
         return value, index
 
 
-    def insert(self, value, function_hash, funtion_colision, name_colision):     
+    def insert(self, value, function_hash, funtion_colision=None, name_colision=None):     
         index = function_hash(value)-1
         self.key = value
+
+        if self.memory == True:
+            return value, index
 
         if not None in self.memory:
             print("Espacio insuficiente")
             return
-        
+        #pruebas saber si no solamente vesirica las colisicones
         if self.memory[index] == value or value in self.colisions:
             print(f'Esta clave "{value}" ya se encuentra en la lista')
             return
+        
         elif self.memory[index] is not None:
             print(f"presenta colision la clave {value}")
             index = funtion_colision(self.memory, index)
             if index != None: 
                 self.memory[index] = value
             self.colisions.add(value)
+            
         else:
             self.memory[index] = value
     
@@ -182,7 +189,7 @@ class HashTrasformation:
 
 
     def prime_below(self):
-        prime = self.length
+        prime = self.length if self.length != 0 else 2
         while not self.is_prime(prime):
             prime -= 1
         return prime

@@ -1,4 +1,4 @@
-from bubble_sort import bubble_sort 
+from function_hash.bubble_sort import bubble_sort 
 
 def binary_search(my_list, objective):
     my_list = bubble_sort(my_list)
