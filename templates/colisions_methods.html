@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="/Colisions" method="post"> 
+    <li>En caso de que presente alguna colision, que metodo de solicion
+        de colisiones le gustaria usar para la funcion {{ name }}</li>
+    <input type="hidden" name="hash_name" value="{{ name }}">
+    <button class="custom-button search" id="colision lineal" value="colision lineal" name="colision_function" type="submit">Colision lineal</button>
+    <button class="custom-button profile" id="colision cuadratica" value="colision cuadratica" name="colision_function" type="submit" >Colision cuadratica</button>
+    <button class="custom-button cart" id="doble direccion hash" value="doble direccion hash" name="colision_function" type="submit">Doble direccion has</button>
+    <button class="custom-button feedback" id="arreglo anidado" value="arreglo anidado" name="colision_function" type="submit">Arreglo anidado</button>
+    <button class="custom-button settings" id="lista encadenada" value="lista encadenada" name="colision_function" type="submit">Lista encadenada</button>
+</form> 
+{% endblock %}

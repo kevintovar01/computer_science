@@ -19,6 +19,7 @@ class HashTrasformation:
 
 
     def search(self, value, function_hash, funtion_colision=None):
+        print(value)
         index = function_hash(value) -1
 
         if self.memory[index] == value:
