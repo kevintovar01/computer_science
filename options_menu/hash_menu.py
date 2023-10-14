@@ -16,6 +16,9 @@ def hash_menu(function_hash, name_function, funtion_colision, my_hash, name_coli
             Estas utilizando la funcion {name_function}, a continuacion
             tienes las siguientes funciones elije la que desees para
             manipular tu lista(memoria):
+
+            Nota: La insercion de datos se hace utilizando el numero 
+            primo menor cercano, en funciones hash.
               
                 [1] - Insertar claves(uno a uno)
                 [2] - Insertar lista de claves(varios)
@@ -79,7 +82,9 @@ def hash_menu(function_hash, name_function, funtion_colision, my_hash, name_coli
                 my_hash.print_all(name_colision)
             elif option == '8':
                 range_number = int(input("'tener encuenta que al cambiar se rango se reinicia la memoria' ingresa una letra para cancelar, ingrese nuevo rango: ")) 
+                aux = my_hash.order
                 my_hash.reset_list()
+                my_hash.order = aux
             elif option == '9':
                 value = int(input("Ingrese clave: ")) 
                 my_hash.delete(value, function_hash, funtion_colision, name_colision)

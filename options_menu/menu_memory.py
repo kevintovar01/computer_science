@@ -12,7 +12,7 @@ def menu_memory():
                        
                 [1]-Estructura Totales
                 [2]-Estructura parciales
-                [3]-Estandar(tipo lista)
+                [3]-Interna
             [Cualquier otro valor]-salir     
             
             Opcion: """)
@@ -26,9 +26,9 @@ def menu_memory():
                 return Est_Parcial(cube, row, tasa_expansion, tasa_reduccion, "Estructura parcial"), 'Estructura parcial'
             elif option == '3':
                 while True:
-                    return int(input("Ingrese el tamaño que desea para la memoria: ")) #thats going to memory to we hash
+                    return int(input("Ingrese el tamaño que desea para la memoria: ")), None #thats going to memory to we hash
             else:        
                 os.system('cls')
-                return True, "Salida Exitosa"
+                break
         except ValueError:
             print("Por favor ingrese un valor valido")

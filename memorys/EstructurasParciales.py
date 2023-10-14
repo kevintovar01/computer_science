@@ -11,7 +11,7 @@ class Est_Parcial:
         self.lista_colisiones =  {i:[] for i in range(cubetas)}
         self.historial_claves = []
         self.claves_totales = 0
-        self.aux_cubetas = False
+        self.initial_length = self.cubetas
         self.function_hash = None
         self.my_hash = None
         self.tipo_expansion = tipo_expansion
@@ -38,6 +38,9 @@ class Est_Parcial:
             print("La clave ya se encuentra en la memoria")
             return True
         self.historial_claves.append(clave)
+
+        while indice > len(self.memoria)-1:
+            indice -= 1
         
         aux = False
         for i in range(self.filas):
@@ -127,14 +130,12 @@ class Est_Parcial:
 
     def reducir(self):    
         if self.tipo_expansion == "Estructura total":
-            self.cubetas = self.cubetas / 2
+            self.cubetas = int(self.cubetas / 2)
         else:
             aux = self.previous
             self.previous = int(self.cubetas/2)
             self.cubetas = aux
 
-        if self.cubetas == 2:
-            return 
         
         print(f"La tasa de Reducción ha sido superada, por lo que vamos a reducir la estructura.\nEl nuevo número de cubetas será {self.cubetas}")
         self.memoria = [[0 for _ in range(self.cubetas)] for _ in range(self.filas)]
@@ -171,5 +172,18 @@ class Est_Parcial:
         colisiones = "[" + ", ".join(str(self.lista_colisiones[i]) for i in range(self.cubetas)) + "]"
         print(colisiones)
 
+
+    def print_all(self):
+        print(self.tipo_expansion)
+        self.imprimir_estructura()
+        print("Historial de claves")
+        self.historial_claves
+        print(f"tasa de expansion {self.tasa_expansion}%")
+        print(f"tasa de reduccion {self.tasa_reduccion}%")
+        print(f"Cuebetas: {self.cubetas}")
+
+
+
+
     def reset_list(self):
-        self.__init__(self.cubetas, self.filas, self.tasa_expansion, self.tasa_reduccion, self.tipo_expansion)
+        self.__init__(self.initial_length, self.filas, self.tasa_expansion, self.tasa_reduccion, self.tipo_expansion)

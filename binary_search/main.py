@@ -1,6 +1,6 @@
-from function_hash.binary_search import binary_search
-from function_hash.bubble_sort import bubble_sort
-from sequence_search import sequence_search
+from .binary_search import binary_search
+from .bubble_sort import bubble_sort
+from .sequence_search import sequence_search
 import random
 import os
 

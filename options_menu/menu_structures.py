@@ -45,10 +45,6 @@ def menu_structures(function_hash, name_function, my_hash, my_structure):
                 values = list(map(int, input(f"Porfavor insertar las claves de forma horizontal separadas por espacios y de digitos iguales a {range_number}: ").split()))
           
                 for i in values:
-                    # if len(values) > my_hash.length:
-                    #     print("Al parecer la lista que tratas de ingresar excede el espacio de memoria, vuelve a intentarlo")
-                    #     break
-
                     if len(str(i)) == range_number:
                         value, index = my_hash.insert(i, function_hash)
                         my_structure.agregar_clave(index,value)
@@ -65,7 +61,7 @@ def menu_structures(function_hash, name_function, my_hash, my_structure):
             elif option == '6':
                 print(f"colisiones {len(my_structure.lista_colisiones)}: ", my_structure.lista_colisiones)
             elif option == '7':
-                pass
+                my_structure.print_all()
             elif option == '8':
                 range_number = int(input("'tener encuenta que al cambiar se rango se reinicia la memoria' ingresa una letra para cancelar, ingrese nuevo rango: ")) 
                 my_structure.reset_list()

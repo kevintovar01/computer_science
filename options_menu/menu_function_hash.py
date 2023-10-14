@@ -1,5 +1,6 @@
 #class functions
 from function_hash.hash_trasformation import HashTrasformation
+from binary_search.main import run
 
 #python libraries
 import os
@@ -30,6 +31,7 @@ def menu_hash_function(my_hash):
                 [4] - hash plegamiento multiplicacion
                 [5] - hash plegamiento suma
                 [6] - cambia el tamaño de tu lista
+                [7] - busquedas, binarias y secuenciales
             [cualquier valor] - salir 
 
             Opcion: """)
@@ -60,6 +62,8 @@ def menu_hash_function(my_hash):
                 length = int(input("Ingrese el tamaño que desea para la memoria: "))
                 my_hash.length = length
                 my_hash.reset_list()
+            elif option == '7':
+                run()
             else:        
                 os.system('cls')
                 return True, "Salida Exitosa"

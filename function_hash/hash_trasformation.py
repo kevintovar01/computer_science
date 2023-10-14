@@ -160,12 +160,26 @@ class HashTrasformation:
                             or
             H(K) = select_digits(7259) + 1 = 29+1 = 76 - odd digits
     """
+    # def hash_truncamiento(self, value):
+    #     element = str(value)
+    #     # aux = self.length+1
+    #     # if len(str(self.length)) > element:
+    #     #     aux = len(element)
+    #     code = [element[i] for i in range(len(str(self.length))) if i%2 == self.order]
+    #     index = int(''.join(map(str, code))) + 1
+    #     return index
+
+
     def hash_truncamiento(self, value):
         element = str(value)
-        code = [element[i] for i in range(len(str(self.length))+1) if i%2 == self.order]
+
+        aux = self.length+1
+        if len(element) <= len(str(self.length)):
+            aux = int(element)
+
+        code = [element[i] for i in range(len(str(aux))) if i%2 == self.order]
         index = int(''.join(map(str, code))) + 1
         return index
-
 
     """
         separate the value(Key) into groups of two using list comprehension and the 'range'
