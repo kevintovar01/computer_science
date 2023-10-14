@@ -1,7 +1,7 @@
 # #menu
 # from options_menu.hash_menu import hash_menu
 
-# from function_hash.hash_trasformation import HashTrasformation
+from function_hash.hash_trasformation import HashTrasformation
 # from function_hash.hash_colisions import HashColision
 
 # #menu hashs
@@ -58,6 +58,8 @@ from ast import literal_eval
 app = Flask(__name__)
 app = Flask(__name__, static_url_path='/static')
 
+my_hash = HashTrasformation(10)
+
 
 
 @app.route('/') #route
@@ -65,12 +67,39 @@ def home():
     return render_template('home.html')
 
 @app.route('/External_memory')
-def External_memory():
+def external_memory():
     return render_template('external_memory.html')
 
+
+"""Functions for Internal Memory"""
 @app.route('/Internal_memory')
-def Internal_memory():
+def internal_memory():
     return render_template('internal_memory.html')
+
+
+
+@app.route('/Hash_fuctions')
+def hash_fuctions():
+    return render_template('hash_fuctions.html')
+
+
+@app.route('/Hash', methods=['POST'])
+def Hash():
+    hash_fuction = request.form.get('hash_fuction')
+
+    functions_hash = {
+        'hash mod': my_hash.hash_function,
+        'hash cuadrado': my_hash.hash_function_square,
+        'hash truncamiento': my_hash.hash_truncamiento,
+        'hash plegamiento multiplicacion': my_hash.hash_function_fold_multiplicative,
+        'hash plegamiento suma': my_hash.hash_function_fold_additive
+    }
+
+    context = {
+        'name': hash_fuction,
+        'fuction': functions_hash[hash_fuction]
+    }
+    return render_template('hash_fuction.html', **context)
 
 
 if __name__ == '__main__':

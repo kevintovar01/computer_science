@@ -5,5 +5,26 @@
 
 
 {% block content %}
-<h1>Internal Memory</h1>
+<button class="custom-button search" id="funcionesHash">Busqueda por trasformacion de claves o hash</button>
+<button class="custom-button profile" id="busquedaBinaria">Busqueda Binaria</button>
+<button class="custom-button cart" id="busquedaSecuencial">Busqueda Secuencial</button>
+<button class="custom-button feedback" id="feedback">Feedback</button>
+<button class="custom-button settings" id="settings">Settings</button>
+
+
+<script>
+    document.getElementById("funcionesHash").addEventListener("click", function() {
+        window.location.href = "/Hash_fuctions";
+    });
+
+    document.getElementById("busquedaBinaria").addEventListener("click", function() {
+        window.location.href = "/External_memory";
+    });
+
+    document.getElementById("busquedaSecuencial").addEventListener("click", function() {
+        window.location.href = "/Internal_memory";
+    });
+
+    // Agrega eventos para los otros botones si es necesario
+</script>
 {% endblock %}
