@@ -2,13 +2,35 @@
 
 {% block content %}
 
+{% if aux == True %}
 
-<button class="custom-button search" id="funcionesHash">E</button>
-<button class="custom-button profile" id="busquedaBinaria">Busqueda Binaria</button>
-<button class="custom-button cart" id="busquedaSecuencial">Busqueda Secuencial</button>
-<button class="custom-button feedback" id="feedback">Feedback</button>
-<button class="custom-button settings" id="settings">Settings</button>
+    <button class="custom-button search" id="totalExpansion" name="structure" value="total">Estructura De Expancion Total</button>
+    <button class="custom-button profile" id="parcialExpancion" name="structure" value="parcial">Estructura De Expancion Parciales</button>
 
+{% else %}
+
+
+    <button class="custom-button search" id="hashingDinamico">Hashing Dinamico</button>
+    <button class="custom-button profile" id="busquedaBinaria">Busqueda Binaria</button>
+
+{% endif %}
+
+
+<script>
+    document.getElementById("totalExpansion").addEventListener("click", function() {
+      var structure = "total";
+      var url = "/Hash_fuctions?structure=" + encodeURIComponent(structure);
+      window.location.href = url; // Redirige a la URL que has construido
+    });
+
+    document.getElementById("parcialExpancion").addEventListener("click", function() {
+      var structure = "parcial";
+      var url = "/Hash_fuctions?structure=" + encodeURIComponent(structure);
+      window.location.href = url; // Redirige a la URL que has construido
+    });
+
+
+</script>
 
 {% endblock %}
 

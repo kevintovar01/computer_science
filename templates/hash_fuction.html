@@ -25,23 +25,50 @@
     tr:hover {
         background-color: #f5f5f5;
     }
+    .error-message {
+    text-align: center;
+    color: #044fdb;
+    font-size: 18px;
+    margin-top: 10px;
+  }
 </style>
 {% endblock %}
 
 {% block content %}
 
+{% if aux == False %}
+    <h1>{{search_type}}</h1>
+    <form action="/verification" method="post">
+        <input type="hidden" name="aux" value="{{ search_type }}">
+        <input type="text" name="value" id="size" class="form-control" placeholder="Tamaño" required>
+        <button type="submit" class="btn btn-primary btn-block px-20" value="accept" name="accept">Aceptar</button>
+    </form>
+{% else%}
+    <form action="{% if search_type != 'secuencial' and search_type != 'binary_search' %} /Operation {% else %} /Binary_operation {% endif %}" method="post">
+        <!-- Hidden input fields for vehicle context -->
+        
+        <h1>Inserte una clave</h1>
+        <h1>{{digits}}</h1>
+        <h1>{{ search_type }}</h1>
+        <input type="hidden" name="aux" value="False">
+        <input type="text" name="value" id="value" class="form-control" placeholder="value" required>
+        <span id="error-message" style="color: red;"></span>
+        <button type="submit" class="btn btn-primary btn-block px-20" value="insert" name="operations">Ingresar clave</button>
+        <button type="submit" class="btn btn-primary btn-block px-20" value="delete" name="operations">Eliminar clave</button>
+        <button type="submit" class="btn btn-primary btn-block px-20" value="search" name="operations">Buscar clave</button>
+        <button type="submit" class="btn btn-primary btn-block px-20" value="length" name="length">Cambia longitud de digitos</button>
+        {% if search_type == 'secuencial' or search_type == 'binary_search' %} 
+            <button type="submit" class="btn btn-primary btn-block px-20" value="sort" name="operations">Ordenar Estructura</button>
+        {% endif %}
 
-<form action="/Operation" method="post">
-    <!-- Hidden input fields for vehicle context -->
-    
-    <h1>Inserte una clave</h1>
-    <input type="text" name="value" id="value" class="form-control" placeholder="value"required>
-    <input type="hidden" value="{{ colision_name }}">
-    <button type="submit" class="btn btn-primary btn-block px-20" value="insert" name="operations">Ingresar clave</button>
-    <button type="submit" class="btn btn-primary btn-block px-20" value="delete" name="operations">Eliminar clave</button>
-    <button type="submit" class="btn btn-primary btn-block px-20" value="search" name="operations">Buscar clave</button>
-    <!-- client[8]  ---- i_rent -->
-  </form>
+        <input type="hidden" value="{{ colision_name }}">
+        <input type="hidden" name="search_type" value="{{ search_type }}">
+        <p class="error-message">{% if message != None %} {{ message }} {% endif %}</p>
+        <!-- client[8]  ---- i_rent -->
+    </form>
+
+{% endif %}
+
 <div class="centered-table">
     <table>
         <thead>
@@ -60,4 +87,33 @@
         </tbody>
     </table>
 </div>
+
+
+<script>
+
+    $("button[name='operations'][value='sort']").on("click", function() {
+        // Remueve el atributo "required" del campo de entrada
+        $("#value").removeAttr("required");
+    });
+    const inputValue = document.getElementById('value');
+    const errorMessage = document.getElementById('error-message');
+    const digits = "{{digits}}"; // Asume que "digits" es un valor que obtienes desde tu contexto.
+
+    inputValue.addEventListener('input', function() {
+        const valueNumber = parseFloat(inputValue.value);
+        const valueText = inputValue.value.trim(); // Convertimos el valor a texto y eliminamos espacios al principio y al final
+
+        if (isNaN(valueNumber) || valueText.length !== parseInt(digits)) {
+            errorMessage.textContent = 'Por favor, ingrese un número válido con ' + digits + ' dígitos.';
+            document.querySelectorAll('button[name="operations"]').forEach(function(button) {
+                    button.disabled = true;
+            });
+        } else {
+            document.querySelectorAll('button[name="operations"]').forEach(function(button) {
+                    button.disabled = false;
+            });
+            errorMessage.textContent = ''; // limpia el mensaje de error
+        }
+    });
+</script>
 {% endblock %}

@@ -1,13 +1,15 @@
 {% extends 'base.html' %} 
 
 {% block content %}
-<form action="/Hash" method="post"> 
+<form action="/Hash" method="post">
+    <h1>{{ structure }}</h1>
+    <input type="hidden" name="structure" value="{{ structure }}">
     <button class="custom-button search" id="hashMod" value="hash mod" name="hash_fuction" type="submit">Hash Mod</button>
     <button class="custom-button profile" id="hashCuadrado" value="hash cuadrado" name="hash_fuction" type="submit" >Hash Cuadrado</button>
     <button class="custom-button cart" id="hashTruncamiento" value="hash truncamiento" name="hash_fuction" type="submit">Hash Truncamiento</button>
     <button class="custom-button feedback" id="hashPlegamientoPorMultiplicaion" value="hash plegamiento multiplicacion" name="hash_fuction" type="submit">Hash Plegamineto Por Multiplicacion</button>
     <button class="custom-button settings" id="hashPlegamientoPorSuma" value="hash plegamiento suma" name="hash_fuction" type="submit">Hash Plegamiento Por Suma</button>
-    <button class="custom-button settings" id="help">Ayuda</button>
+
 </form> 
 {% endblock %}
 

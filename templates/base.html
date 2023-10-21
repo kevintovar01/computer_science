@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tipo de Memoria</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
   {% block style %}
   {% endblock %}
@@ -111,40 +112,31 @@
   {% endblock %}
 
   <script>
+    document.getElementById("hashingDinamico").addEventListener("click", function() {
+      var type = "Hashing Dinamico";
+      var url = "/External_memory?type=" + encodeURIComponent(type);
+      window.location.href = url; // Redirige a la URL que has construido
+    });
 
-  function sendRequest() {
-        // Obtener el valor del botón
-        let buttonValue = document.getElementById('hashMod').innerHTML;
 
-        // Opcional: puedes procesar o cambiar el valor aquí si lo deseas
-
-        // Redirigir o enviar el valor al servidor
-        window.location.href = `/Hash?button_value=${buttonValue}`;
-    }
 
     document.getElementById("funcionesHash").addEventListener("click", function() {
-        window.location.href = "/Hash_fuctions";
+      window.location.href = "/Hash_fuctions";
     });
 
     document.getElementById("busquedaBinaria").addEventListener("click", function() {
-        window.location.href = "/External_memory";
+      var type_search = "binary_search";
+
+      var url = "/Binary_search?type_search="+encodeURIComponent(type_search);
+      window.location.href = url;
     });
 
     document.getElementById("busquedaSecuencial").addEventListener("click", function() {
-        window.location.href = "/Internal_memory";
+      var type_search = "secuencial";
+      var url = "/Binary_search?type_search=" + encodeURIComponent(type_search);
+      window.location.href = url; // Redirige a la URL que has construido
     });
 
-
-    // document.getElementById("funcionesHash").addEventListener("click", function() {
-    //     window.location.href = "/Hash_fuctions";
-    // });
-    // document.getElementById("funcionesHash").addEventListener("click", function() {
-    //     window.location.href = "/Hash_fuctions";
-    // });
-    // document.getElementById("funcionesHash").addEventListener("click", function() {
-    //     window.location.href = "/Hash_fuctions";
-    // });
-    // Agrega eventos para los otros botones si es necesario
 </script>
 
   <!-- Agrega aquí los enlaces a los archivos JS comunes -->

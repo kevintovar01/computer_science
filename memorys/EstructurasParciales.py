@@ -35,37 +35,36 @@ class Est_Parcial:
 
     def agregar_clave(self, indice, clave):
         if clave in self.historial_claves:
-            print("La clave ya se encuentra en la memoria")
-            return True
+            return True, "La clave ya se encuentra en la memoria"
         self.historial_claves.append(clave)
 
-        while indice > len(self.memoria)-1:
-            indice -= 1
+        # while indice > len(self.memoria)-1:
+        #     indice -= 1
         
         aux = False
         for i in range(self.filas):
             if self.memoria[i][indice] == 0:
                 self.memoria[i][indice] = clave
                 aux = True
-                print(f"La clave {clave} se ha insertado en la cubeta {indice} en la fila {i} satisfactoriamente.")
+                message = f"La clave {clave} se ha insertado en la cubeta {indice} en la fila {i} satisfactoriamente."
                 break
 
         if not aux:
             self.lista_colisiones[indice].append(clave)
-            print(f"Se presentó una colisión en la cubeta {indice}, por lo cual la clave {clave} será insertada en la lista de colisiones.")
+            message = f"Se presentó una colisión en la cubeta {indice}, por lo cual la clave {clave} será insertada en la lista de colisiones."
             
 
         self.claves_totales += 1
 
         if (self.claves_totales / (self.filas * self.cubetas)) > self.tasa_expansion/100:
-            self.expandir()
-            return False
+            message += self.expandir()
+            return False, message
 
-        return True
+        return True, message
 
 
     def expandir(self):
-        if self.tipo_expansion == "Estructura total":
+        if self.tipo_expansion == "total":
             self.cubetas = self.cubetas * 2
             self.memoria = [[0 for _ in range(self.cubetas)] for _ in range(self.filas)]
         else:
@@ -80,7 +79,7 @@ class Est_Parcial:
                 self.memoria = [[0 for _ in range(self.cubetas)] for _ in range(self.filas)]
 
 
-        print(f"La tasa de Expansión ha sido superada, por lo que vamos a expandir la estructura.\nEl nuevo número de cubetas será {self.cubetas}")
+        message = f", La tasa de Expansión ha sido superada, por lo que vamos a expandir la estructura.\nEl nuevo número de cubetas será {self.cubetas}"
         self.lista_colisiones = {i:[] for i in range(self.cubetas)}
         aux = self.historial_claves
         self.historial_claves = []
@@ -92,6 +91,8 @@ class Est_Parcial:
             index = self.function_hash(i)-1
             self.agregar_clave(index,i)
 
+        return message
+
 
 
     def eliminar_clave(self, clave):
@@ -100,8 +101,7 @@ class Est_Parcial:
         
         # Si no encontramos la clave
         if resultado == False:
-            print("La clave no se encuentra en la estructura.")
-            return False
+            return False, f"La clave no se encuentra en la estructura."
         
         # Si la clave está en la memoria principal
         if resultado["tipo"] == "Memoria Principal":
@@ -109,12 +109,12 @@ class Est_Parcial:
             if len(self.lista_colisiones[resultado['indice']]) > 0:
                 self.memoria[resultado['fila']][resultado['indice']] = self.lista_colisiones[resultado['indice']][0]
                 self.lista_colisiones[resultado['indice']].pop(0)
-            print(f"La clave {clave} que se ha encontrado en la cubeta {resultado['indice']} ha sido eliminada correctamente.")
+            message = f"La clave {clave} que se ha encontrado en la cubeta {resultado['indice']} ha sido eliminada correctamente."
             
         # Si la clave está en la lista de colisiones
         elif resultado["tipo"] == "Lista de Colisiones":
             self.lista_colisiones[resultado['posicion']].remove(clave)
-            print(f"La clave {clave} que se ha encontrado en la lista de colisiones ha sido eliminada correctamente.")
+            message= f"La clave {clave} que se ha encontrado en la lista de colisiones ha sido eliminada correctamente."
         
         # Actualizar el historial de claves y el total
         self.historial_claves.remove(clave)
@@ -122,14 +122,14 @@ class Est_Parcial:
         
         # Revisar si necesitamos reducir
         if (self.claves_totales / self.cubetas) < self.tasa_reduccion/100 and self.cubetas != 2:
-            self.reducir()
-            return False
+            message += self.reducir()
+            return False, message
 
-        return True
+        return True, message
 
 
     def reducir(self):    
-        if self.tipo_expansion == "Estructura total":
+        if self.tipo_expansion == "total":
             self.cubetas = int(self.cubetas / 2)
         else:
             aux = self.previous
@@ -137,7 +137,7 @@ class Est_Parcial:
             self.cubetas = aux
 
         
-        print(f"La tasa de Reducción ha sido superada, por lo que vamos a reducir la estructura.\nEl nuevo número de cubetas será {self.cubetas}")
+        message = f", La tasa de Reducción ha sido superada, por lo que vamos a reducir la estructura.\nEl nuevo número de cubetas será {self.cubetas}"
         self.memoria = [[0 for _ in range(self.cubetas)] for _ in range(self.filas)]
         self.lista_colisiones =  {i:[] for i in range(self.cubetas)}
 
@@ -150,6 +150,8 @@ class Est_Parcial:
             self.my_hash.prime = self.cubetas
             index = self.function_hash(i)-1
             self.agregar_clave(index,i)
+
+        return message
 
 
     def get_cubetas(self):

@@ -24,12 +24,12 @@ class HashTrasformation:
 
         if self.memory[index] == value:
             print("El número", value, "fue encontrado en la posición", index)
-            return value, index
+            return value, index, f"El número {value} fue encontrado en la posición {index}"
         else:
             index = funtion_colision(self.memory, index, value)     
             print("El número", value, f"fue encontrado en la posición {index}" if index != None else "No se encuentra en la memoria")
 
-        return value, index
+        return value, index, f"El número {value} fue encontrado en la posición {index}" if index != None else "No se encuentra en la memoria"
 
 
     def insert(self, value, function_hash, funtion_colision=None, name_colision=None):     
@@ -37,37 +37,34 @@ class HashTrasformation:
         self.key = value
 
         if self.memory == True:
-            return value, index
+            return None, value, index
 
         
         if name_colision == 'arreglo anidado' or name_colision == 'lista encadenada' and not None in self.memory:
-            print(f"presenta colision la clave {value}")
             funtion_colision(self.memory, index)
-            return
+            return f"presenta colision la clave {value}", None, None
         elif  not None in self.memory:
-            print("Espacio insuficiente")
-            return
+            return "Espacio insuficiente", None, None
         #pruebas saber si no solamente vesirica las colisicones
         if self.memory[index] == value or value in self.colisions:
-            print(f'Esta clave "{value}" ya se encuentra en la lista')
-            return
+            return f'Esta clave "{value}" ya se encuentra en la lista',None, None
         
         elif self.memory[index] is not None:
-            print(f"presenta colision la clave {value}")
             index = funtion_colision(self.memory, index)
             if index != None: 
                 self.memory[index] = value
             self.colisions.add(value)
-            
+            return f"presenta colision la clave {value}", None, None 
         else:
             self.memory[index] = value
+            return None, None, None
     
 
     def delete(self, value, function_hash, funtion_colision, name_colision):
-        value, index = self.search(value, function_hash, funtion_colision)
+        value, index, message = self.search(value, function_hash, funtion_colision)
 
         if index == None:
-            return
+            return None
         
         if name_colision == 'arreglo anidado':
             try:
@@ -91,7 +88,7 @@ class HashTrasformation:
         else:
             self.memory[index] = None
 
-        print(f"Clave {value} eliminado")
+        return f"Clave {value} eliminado"
 
     """
         Modulo Hash Funtion: division  The formula: H(K) = (K mod N) + 1
@@ -239,6 +236,11 @@ class HashTrasformation:
 
         return int(num_str[start:end])
     
+        
+    
 
     def reset_list(self):
-        self.__init__(self.length)
+        if self.memory == True:
+            self.__init__(self.length, self.memory)
+        else:
+            self.__init__(self.length)            

@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block style %}
+
+<style>
+    /* Estilo básico para la tabla */
+    table {
+        width: 20%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px 12px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+    .container {
+        display: flex;
+        flex-direction: row;
+        margin: 20px 0;
+    }
+
+    .cubeta {
+        border: 1px solid black;
+        margin-right: 20px;
+        min-width: 100px;
+        text-align: center;
+    }
+
+    .header {
+        background-color: #f2f2f2;
+        padding: 8px 12px;
+    }
+
+    .valor {
+        border-top: 1px solid black;
+        padding: 8px 12px;
+    }
+
+    .valor:last-child {
+        border-bottom: 1px solid black;
+    }
+
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<form action="/dinamic_structures" method="post">
+    <!-- Hidden input fields for vehicle context -->
+    
+    <h1>Inserte una clave</h1>
+    <input type="hidden" name="aux" value="False">
+    <input type="text" name="value" id="value" class="form-control" placeholder="value" required>
+    <span id="error-message" style="color: red;"></span>
+    <button type="submit" class="btn btn-primary btn-block px-20" value="insert" name="operations">Ingresar clave</button>
+    <button type="submit" class="btn btn-primary btn-block px-20" value="delete" name="operations">Eliminar clave</button>
+    <button type="submit" class="btn btn-primary btn-block px-20" value="search" name="operations">Buscar clave</button>
+    <!-- <button type="submit" class="btn btn-primary btn-block px-20" value="length" name="length">Cambia longitud de digitos</button> -->
+
+    <p class="error-message">{% if message != None %} {{ message }} {% endif %}</p>
+    <!-- client[8]  ---- i_rent -->
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>Información de Estructura</h2>
+
+<table>
+    <tr>
+        <th>Atributo</th>
+        <th>Valor</th>
+    </tr>
+    <tr>
+        <td>Tipo de expansión</td>
+        <td>{{ my_structure.tipo_expansion }}</td>
+    </tr>
+    <tr>
+        <td>Tasa de expansión</td>
+        <td>{{ my_structure.tasa_expansion }}%</td>
+    </tr>
+    <tr>
+        <td>Tasa de reducción</td>
+        <td>{{ my_structure.tasa_reduccion }}%</td>
+    </tr>
+    <tr>
+        <td>Cubetas</td>
+        <td>{{ my_structure.cubetas }}</td>
+    </tr>
+</table>
+
+
+<!-- Visualización de la matriz -->
+<div class="main-container">
+    <!-- Visualización de la matriz -->
+    <table>
+        <thead>
+            <tr>
+                <!-- Espacio en blanco para la esquina superior izquierda -->
+                <th></th>
+                <!-- Encabezados de las columnas enumerados desde 0 -->
+                {% for col in my_structure.memoria[0] %}
+                    <th>Col {{ loop.index0 }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Datos de la matriz -->
+            {% for row in my_structure.memoria %}
+                <tr>
+                    <!-- Número de fila en la primera columna -->
+                    <td>Fila {{ loop.index0 }}</td>
+                    {% for item in row %}
+                        <td>{{ item }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Visualización del diccionario lista_colisiones -->
+    <div class="container">
+        {% for key, value in my_structure.lista_colisiones.items() %}
+            <div class="cubeta">
+                <div class="header">{{ key }}</div>
+                {% for item in value %}
+                    <div class="valor">{{ item }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Índice</th>
+            <th>Clave</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for clave in my_structure.historial_claves %}
+            <tr>
+                <td>{{ loop.index0 }}</td>
+                <td>{{ clave }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+
+
+
+{% endblock %}

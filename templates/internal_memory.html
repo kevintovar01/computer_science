@@ -5,26 +5,21 @@
 
 
 {% block content %}
+
+{% if length == False %}
+    <form id="/Internal_memory" method="post">
+        <input type="text" name="size" id="size" class="form-control" placeholder="Tamaño" required>
+        <button type="submit" class="btn btn-primary btn-block px-20" value="accept" name="accept">Aceptar</button>
+    </form>
+{% else %}
+
 <button class="custom-button search" id="funcionesHash">Busqueda por trasformacion de claves o hash</button>
-<button class="custom-button profile" id="busquedaBinaria">Busqueda Binaria</button>
-<button class="custom-button cart" id="busquedaSecuencial">Busqueda Secuencial</button>
+<button class="custom-button profile"  id="busquedaBinaria" >Busqueda Binaria</button>
+<button class="custom-button cart"  id="busquedaSecuencial" >Busqueda Secuencial</button>
 <button class="custom-button feedback" id="feedback">Feedback</button>
 <button class="custom-button settings" id="settings">Settings</button>
 
 
-<script>
-    document.getElementById("funcionesHash").addEventListener("click", function() {
-        window.location.href = "/Hash_fuctions";
-    });
+{% endif %}
 
-    document.getElementById("busquedaBinaria").addEventListener("click", function() {
-        window.location.href = "/External_memory";
-    });
-
-    document.getElementById("busquedaSecuencial").addEventListener("click", function() {
-        window.location.href = "/Internal_memory";
-    });
-
-    // Agrega eventos para los otros botones si es necesario
-</script>
 {% endblock %}

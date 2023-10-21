@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="submit"] {
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<form action="/Conditions" method="post">
+    <h1>{{ name }}</h1>
+    <label for="cube">Ingrese tamaño que desea por cubetas múltiplo de 2:</label>
+    <input type="number" name="cube" id="cube" required>
+
+    <label for="tasa_expansion">Ingrese tasa_expansion % (recomendación entre 10 a 80%):</label>
+    <input type="number" name="tasa_expansion" id="tasa_expansion" required>
+
+    <label for="tasa_reduccion">Ingrese tasa_reduccion %:</label>
+    <input type="number" name="tasa_reduccion" id="tasa_reduccion" required>
+
+    <label for="row">Ingrese tamaño que desea por filas:</label>
+    <input type="number" name="row" id="row" required>
+    <input type="hidden" name="structure" value="{{ structure }}">
+    <input type="hidden" name="hash" value="{{ hash }}">
+
+    <input type="submit" value="Validar">
+</form>
+
+<script>
+    document.getElementById("validationForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const cube = parseInt(document.getElementById("cube").value);
+        const tasa_expansion = parseInt(document.getElementById("tasa_expansion").value);
+        const tasa_reduccion = parseInt(document.getElementById("tasa_reduccion").value);
+        const row = parseInt(document.getElementById("row").value);
+
+        if (cube % 2 !== 0 || cube < 2) {
+            alert("El tamaño por cubetas tiene que ser múltiplo de 2 y mayor que 2.");
+            return;
+        }
+
+        if (tasa_expansion >= 90 || tasa_expansion < 0) {
+            alert("La tasa de expansión está muy alta, esto podría generar error a futuro. Por favor, cambia el valor.");
+            return;
+        }
+
+        if (tasa_reduccion < 0) {
+            alert("La tasa de reducción no es válida, por favor intenta de nuevo.");
+            return;
+        }
+
+        if (row < 1) {
+            alert("El valor que intentas ingresar es incorrecto, intenta con un valor mayor a 1.");
+            return;
+        }
+
+        alert("Los valores son válidos!");
+    });
+</script>
+{% endblock %}
+
+
