@@ -60,11 +60,13 @@ def conditions():
         print("Total")
         my_structure = Est_Parcial(cube,row,tasa_expansion,tasa_reduccion, structure)
         my_structure.function_hash = function
+        my_hash.length = cube
         my_structure.my_hash = my_hash
     elif structure == 'parcial':
         print("parcial")
         my_structure = Est_Parcial(cube,row,tasa_expansion,tasa_reduccion, structure)
         my_structure.function_hash = function
+        my_hash.length = cube
         my_structure.my_hash = my_hash
 
     context = {
@@ -152,8 +154,17 @@ def binary_search():
 def hash():
     global function
     global my_hash
-
+    hash_truncamiento = None
     hash_fuction = request.form.get('hash_fuction')
+    
+    if hash_fuction == None:
+        hash_truncamiento = request.form.get('hash_truncamiento')
+        hash_fuction = "hash truncamiento"
+
+        print(hash_truncamiento)
+        
+
+
     is_structure = request.form.get('structure')
 
     print(is_structure)
@@ -174,6 +185,11 @@ def hash():
     if function != aux:
         my_hash.reset_list()
     
+    if hash_truncamiento == '0' or hash_truncamiento == '1':
+        my_hash.order = int(hash_truncamiento)
+    
+
+
     if is_structure == 'total' or is_structure == 'parcial':
         context = {'name': hash_fuction,'hash': my_hash, 'structure':is_structure}
         return render_template('conditions.html', **context)
@@ -195,6 +211,7 @@ def Colisions():
     hash_fuction = request.form.get('hash_name')
     colision_fuction = request.form.get('colision_function')
 
+
     colision_hash = {
             'colision lineal': colisions.lineal_colision,
             'colision cuadratica': colisions.square_colision,
@@ -213,11 +230,10 @@ def Colisions():
 
     context = {
         'hash_name':hash_fuction,
-        'colision_name': fuction_colision,
+        'colision_name': colision_fuction,
         'hash': my_hash,
         'aux': False
     }
-
     return render_template('hash_fuction.html', **context)
 
 
@@ -227,6 +243,7 @@ def veryfication():
     aux = request.form.get('aux')
     digits = int(request.form.get('value'))
     search_type = request.form.get('aux')
+    colision_name = request.form.get('colision_name')
 
     if aux == 'binary_searh':
         context = {'hash':my_hash, 'digits': digits, 'aux': 'binary_searh'}
@@ -236,6 +253,7 @@ def veryfication():
     context = {
                 'hash': my_hash,
                 'digits':digits,
+                'colision_name':colision_name,
                 'search_type': search_type,
                 'aux':True
             }
@@ -247,6 +265,7 @@ def operations():
     global digits
 
     operation = request.form.get('operations')
+    colision_name = request.form.get('colision_name')
     name_colision = request.form.get('name_colision')
     value = int(request.form.get('value'))
 
@@ -264,6 +283,7 @@ def operations():
     context = {
                 'hash': my_hash,
                 'message': messages,
+                'colision_name':colision_name,
                 'digits':digits,
                 'aux':True
             }

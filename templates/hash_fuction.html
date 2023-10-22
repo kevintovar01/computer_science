@@ -37,8 +37,11 @@
 {% block content %}
 
 {% if aux == False %}
+<h1>{{colision_name}}</h1>
     <h1>{{search_type}}</h1>
+    
     <form action="/verification" method="post">
+        <input type="hidden" name="colision_name" value="{{colision_name}}">
         <input type="hidden" name="aux" value="{{ search_type }}">
         <input type="text" name="value" id="size" class="form-control" placeholder="Tamaño" required>
         <button type="submit" class="btn btn-primary btn-block px-20" value="accept" name="accept">Aceptar</button>
@@ -47,9 +50,13 @@
     <form action="{% if search_type != 'secuencial' and search_type != 'binary_search' %} /Operation {% else %} /Binary_operation {% endif %}" method="post">
         <!-- Hidden input fields for vehicle context -->
         
-        <h1>Inserte una clave</h1>
+        <h1>Ingrese una clave y seleccione que desea hacer</h1>
+        <h1>{{colision_name}}</h1>
+
         <h1>{{digits}}</h1>
         <h1>{{ search_type }}</h1>
+        <input type="hidden" name="colision_name" value="{{colision_name}}">
+
         <input type="hidden" name="aux" value="False">
         <input type="text" name="value" id="value" class="form-control" placeholder="value" required>
         <span id="error-message" style="color: red;"></span>
@@ -87,6 +94,67 @@
         </tbody>
     </table>
 </div>
+
+
+<div class="main-container">
+    {% if colision_name == 'arreglo anidado' %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <!-- Espacio en blanco para la esquina superior izquierda -->
+                    <th></th>
+                    <!-- Encabezados de las columnas enumerados desde 0 -->
+                    {% for col in hash.anidado[0] %}
+                        <th>Col {{ loop.index0 }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Datos de la matriz -->
+                {% for row in hash.anidado %}
+                    <tr>
+                        <!-- Número de fila en la primera columna -->
+                        <td>{{ loop.index0 }}</td>
+                        {% for item in row %}
+                            <td>{{ item }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    {% elif colision_name == 'lista encadenada' %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, value in hash.cadena.items() %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        {% for item in value %}
+                                            <td>{{ item }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+
 
 
 <script>

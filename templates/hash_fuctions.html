@@ -1,16 +1,49 @@
 {% extends 'base.html' %} 
 
+{% block style %}
+<style>
+
+    #even, #odd {
+    display: none;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <form action="/Hash" method="post">
     <h1>{{ structure }}</h1>
+    <h2 class="text-center mb-4">Que tipo de trasformación de clave (Hash) desea usar</h2>
     <input type="hidden" name="structure" value="{{ structure }}">
     <button class="custom-button search" id="hashMod" value="hash mod" name="hash_fuction" type="submit">Hash Mod</button>
     <button class="custom-button profile" id="hashCuadrado" value="hash cuadrado" name="hash_fuction" type="submit" >Hash Cuadrado</button>
-    <button class="custom-button cart" id="hashTruncamiento" value="hash truncamiento" name="hash_fuction" type="submit">Hash Truncamiento</button>
+    <button class="custom-button cart" id="hashTruncamiento" name="hash_fuction" type="button">Hash Truncamiento</button>
     <button class="custom-button feedback" id="hashPlegamientoPorMultiplicaion" value="hash plegamiento multiplicacion" name="hash_fuction" type="submit">Hash Plegamineto Por Multiplicacion</button>
     <button class="custom-button settings" id="hashPlegamientoPorSuma" value="hash plegamiento suma" name="hash_fuction" type="submit">Hash Plegamiento Por Suma</button>
 
-</form> 
+
+    <button type="submit" class="custom-button" id="even" name="hash_truncamiento" value="1">even</button>
+    <button type="submit" class="custom-button" id="odd" name="hash_truncamiento" value="0">odd</button>
+</form>
+
+
+
+<script>
+    // Obtén una referencia al botón "Hash Truncamiento"
+    const hashTruncamientoButton = document.getElementById("hashTruncamiento");
+  
+    // Agrega un manejador de eventos al botón "Hash Truncamiento"
+    hashTruncamientoButton.addEventListener("click", function() {
+      // Muestra los botones adicionales
+      document.getElementById("even").style.display = "inline-block";
+      document.getElementById("odd").style.display = "inline-block";
+      
+      var elementos = document.getElementsByName("hash_fuction");
+
+        for (var i = 0; i < elementos.length; i++) {
+            elementos[i].style.display = "none";
+        }
+    });
+  </script>
 {% endblock %}
 
 

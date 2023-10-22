@@ -7,19 +7,39 @@
 {% block content %}
 
 {% if length == False %}
+    <h2 class="text-center mb-4">Ingrese el tamaño del arreglo</h2>
     <form id="/Internal_memory" method="post">
         <input type="text" name="size" id="size" class="form-control" placeholder="Tamaño" required>
         <button type="submit" class="btn btn-primary btn-block px-20" value="accept" name="accept">Aceptar</button>
     </form>
 {% else %}
 
+<h2 class="text-center mb-4">Seleccione el tipo de búsqueda que desea realizar</h2>
 <button class="custom-button search" id="funcionesHash">Busqueda por trasformacion de claves o hash</button>
 <button class="custom-button profile"  id="busquedaBinaria" >Busqueda Binaria</button>
 <button class="custom-button cart"  id="busquedaSecuencial" >Busqueda Secuencial</button>
-<button class="custom-button feedback" id="feedback">Feedback</button>
-<button class="custom-button settings" id="settings">Settings</button>
+
 
 
 {% endif %}
 
+<script>
+    document.getElementById("funcionesHash").addEventListener("click", function() {
+        window.location.href = "/Hash_fuctions";
+      });
+  
+      document.getElementById("busquedaBinaria").addEventListener("click", function() {
+        var type_search = "binary_search";
+  
+        var url = "/Binary_search?type_search="+encodeURIComponent(type_search);
+        window.location.href = url;
+      });
+  
+      document.getElementById("busquedaSecuencial").addEventListener("click", function() {
+        var type_search = "secuencial";
+        var url = "/Binary_search?type_search=" + encodeURIComponent(type_search);
+        window.location.href = url; // Redirige a la URL que has construido
+      });
+  
+</script>
 {% endblock %}

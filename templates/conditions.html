@@ -56,18 +56,18 @@
     <label for="cube">Ingrese tamaño que desea por cubetas múltiplo de 2:</label>
     <input type="number" name="cube" id="cube" required>
 
-    <label for="tasa_expansion">Ingrese tasa_expansion % (recomendación entre 10 a 80%):</label>
+    <label for="tasa_expansion">Ingrese el porcentaje de expansión de la estructura (se recomienda entre 10% a 80%):</label>
     <input type="number" name="tasa_expansion" id="tasa_expansion" required>
 
-    <label for="tasa_reduccion">Ingrese tasa_reduccion %:</label>
+    <label for="tasa_reduccion">Ingrese el porcentaje de reducción de la estructura (se recomienda no pasar del doble del porcentaje de expansión):</label>
     <input type="number" name="tasa_reduccion" id="tasa_reduccion" required>
 
-    <label for="row">Ingrese tamaño que desea por filas:</label>
+    <label for="row">Ingrese el número de registros por cubeta:</label>
     <input type="number" name="row" id="row" required>
     <input type="hidden" name="structure" value="{{ structure }}">
     <input type="hidden" name="hash" value="{{ hash }}">
 
-    <input type="submit" value="Validar">
+    <input type="submit"  id="validationForm"  value="Validar">
 </form>
 
 <script>
@@ -79,7 +79,7 @@
         const tasa_reduccion = parseInt(document.getElementById("tasa_reduccion").value);
         const row = parseInt(document.getElementById("row").value);
 
-        if (cube % 2 !== 0 || cube < 2) {
+        if (cube % 2 != 0 || cube < 2) {
             alert("El tamaño por cubetas tiene que ser múltiplo de 2 y mayor que 2.");
             return;
         }
@@ -89,7 +89,7 @@
             return;
         }
 
-        if (tasa_reduccion < 0) {
+        if (tasa_reduccion < 0 || tasa_reduccion > 200 ) {
             alert("La tasa de reducción no es válida, por favor intenta de nuevo.");
             return;
         }
@@ -99,7 +99,7 @@
             return;
         }
 
-        alert("Los valores son válidos!");
+        alert("Los valores ingresados son válidos!");
     });
 </script>
 {% endblock %}

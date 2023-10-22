@@ -3,34 +3,49 @@
 {% block content %}
 
 {% if aux == True %}
-
+    <h2 class="text-center mb-4">Seleccione el tipo de expansión para la estructura</h2>
     <button class="custom-button search" id="totalExpansion" name="structure" value="total">Estructura De Expancion Total</button>
     <button class="custom-button profile" id="parcialExpancion" name="structure" value="parcial">Estructura De Expancion Parciales</button>
 
+
+    <script>
+
+      document.getElementById("totalExpansion").addEventListener("click", function() {
+        var structure = "total";
+        var url = "/Hash_fuctions?structure=" + encodeURIComponent(structure);
+        window.location.href = url; // Redirige a la URL que has construido
+      });
+  
+      document.getElementById("parcialExpancion").addEventListener("click", function() {
+        var structure = "parcial";
+        var url = "/Hash_fuctions?structure=" + encodeURIComponent(structure);
+        window.location.href = url; // Redirige a la URL que has construido
+      });
+  
+  
+  
+  </script>
+
+
 {% else %}
 
-
+    <h2 class="text-center mb-4">Qué tipo de búsqueda quiere que se haga en la estructura</h2>
     <button class="custom-button search" id="hashingDinamico">Hashing Dinamico</button>
     <button class="custom-button profile" id="busquedaBinaria">Busqueda Binaria</button>
+
+    <script>
+
+      document.getElementById("hashingDinamico").addEventListener("click", function() {
+        var type = "Hashing Dinamico";
+        var url = "/External_memory?type=" + encodeURIComponent(type);
+        window.location.href = url; // Redirige a la URL que has construido
+      });
+      </script>
 
 {% endif %}
 
 
-<script>
-    document.getElementById("totalExpansion").addEventListener("click", function() {
-      var structure = "total";
-      var url = "/Hash_fuctions?structure=" + encodeURIComponent(structure);
-      window.location.href = url; // Redirige a la URL que has construido
-    });
 
-    document.getElementById("parcialExpancion").addEventListener("click", function() {
-      var structure = "parcial";
-      var url = "/Hash_fuctions?structure=" + encodeURIComponent(structure);
-      window.location.href = url; // Redirige a la URL que has construido
-    });
-
-
-</script>
 
 {% endblock %}
 

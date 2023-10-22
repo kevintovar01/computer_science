@@ -154,18 +154,18 @@ class HashTrasformation:
         The selection of these digits must be even and odd
 
         Example:
-            H(K) = select_digits(7259) + 1 = 75+1 = 76 - even digits 
+            H(K) = select_digits(7259) + 1 = 75+1 = 76 - odd digits 
                             or
-            H(K) = select_digits(7259) + 1 = 29+1 = 76 - odd digits
+            H(K) = select_digits(7259) + 1 = 29+1 = 30 - even digits
     """
     def hash_truncamiento(self, value):
         element = str(value)
 
-        aux = self.length+1
+        aux = len(str(self.length))+1
         if len(element) <= len(str(self.length)):
             aux = int(element)
 
-        code = [element[i] for i in range(len(str(aux))) if i%2 == self.order]
+        code = [element[i] for i in range(aux) if i%2 == self.order]
         index = int(''.join(map(str, code))) + 1
         return index
 
@@ -175,7 +175,8 @@ class HashTrasformation:
     """
     def split_into_groups(self, key):
         key = str(key)
-        even = 2 if len(key) > 2 else 1
+        prime_length = len(str(self.prime))
+        even = prime_length
         groups = [int(key[i:i+even]) for i in range(0, len(key), even)] #range: 0-2-4..., i:i+1 = 0-1,2-3,4-5...
         return groups
     
@@ -233,8 +234,11 @@ class HashTrasformation:
         start = (total_digits - digit_count) // 2
 
         end = start + digit_count
-
-        return int(num_str[start:end])
+        
+        if (total_digits % 2) == 0 and (digit_count % 2) == 1:
+            return int(num_str[start:end+1])
+        else:
+            return int(num_str[start:end])
     
         
     
@@ -243,4 +247,6 @@ class HashTrasformation:
         if self.memory == True:
             self.__init__(self.length, self.memory)
         else:
-            self.__init__(self.length)            
+            aux = self.order
+            self.__init__(self.length)
+            self.order = aux            
