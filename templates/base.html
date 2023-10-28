@@ -6,9 +6,69 @@
   <title>Programa Gestor de Datos</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   {% block style %}
   {% endblock %}
   <style>
+    h1, h2, h3, h4, h5, h6{
+      font-family: 'Caveat', cursive;
+  }
+  .custom-form h2 {
+      font-size: 1.8em;
+      color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+      z-index: 2;
+      position: relative;
+  }
+  /* Estilos personalizados */
+  .custom-form {
+      background: linear-gradient(135deg, rgb(133, 45, 215) 0%, rgb(80, 89, 209) 100%);
+      max-width: 400px;
+      margin: 2em auto;
+      padding: 25px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      border: 2px solid rgba(153, 13, 175, 0.2);
+      position: relative;
+      overflow: hidden;
+  }
+
+  .custom-form {
+    display: flex;
+    flex-direction: column; /* Hace que los elementos hijos (como botones) se apilen verticalmente */
+    align-items: center; /* Centra los elementos hijos horizontalmente */
+    justify-content: center; /* Centra los elementos hijos verticalmente (opcional en este caso) */
+}
+
+  .custom-form::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      bottom: -50px;
+      left: -50px;
+      background: repeating-radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 0.05),
+          rgba(255, 255, 255, 0.05) 1px,
+          transparent 1px,
+          transparent
+      );
+      z-index: 1;
+      pointer-events: none;
+  }
+
+  .custom-form h2 {
+      z-index: 2;
+      position: relative;
+  }
+
+  .custom-form input, .custom-form button {
+      z-index: 2;
+      position: relative;
+  }
+  
     body {
       
       font-family: Arial, sans-serif;
