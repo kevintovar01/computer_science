@@ -5,23 +5,75 @@
 
 
 {% block content %}
+<style>
+    .custom-form h2 {
+      font-size: 1.8em;
+      color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+      z-index: 2;
+      position: relative;
+  }
+  /* Estilos personalizados */
+  .custom-form {
+      background: linear-gradient(135deg, rgb(133, 45, 215) 0%, rgb(80, 89, 209) 100%);
+      max-width: 400px;
+      margin: 2em auto;
+      padding: 25px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      border: 2px solid rgba(153, 13, 175, 0.2);
+      position: relative;
+      overflow: hidden;
+  }
+
+  .custom-form::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      bottom: -50px;
+      left: -50px;
+      background: repeating-radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 0.05),
+          rgba(255, 255, 255, 0.05) 1px,
+          transparent 1px,
+          transparent
+      );
+      z-index: 1;
+      pointer-events: none;
+  }
+
+  .custom-form h2 {
+      z-index: 2;
+      position: relative;
+  }
+
+  .custom-form input, .custom-form button {
+      z-index: 2;
+      position: relative;
+  }
+</style>
 
 {% if length == False %}
-    <h2 class="text-center mb-4">Ingrese el tamaño del arreglo</h2>
-    <form id="/Internal_memory" method="post">
-        <input type="text" name="size" id="size" class="form-control" placeholder="Tamaño" required>
-        <button type="submit" class="btn btn-primary btn-block px-20" value="accept" name="accept">Aceptar</button>
-    </form>
+  <div class="custom-form">
+      <h2 class="text-center mb-4">Ingrese el tamaño del arreglo</h2>
+      <form id="/Internal_memory" method="post">
+          <input type="text" name="size" id="size" class="form-control" placeholder="Tamaño" required>
+          <button type="submit" class="btn btn-primary btn-block mt-3" value="accept" name="accept">Aceptar</button>
+      </form>
+  </div>
 {% else %}
 
+
 <h2 class="text-center mb-4">Seleccione el tipo de búsqueda que desea realizar</h2>
-<button class="custom-button search" id="funcionesHash">Busqueda por trasformacion de claves o hash</button>
-<button class="custom-button profile"  id="busquedaBinaria" >Busqueda Binaria</button>
-<button class="custom-button cart"  id="busquedaSecuencial" >Busqueda Secuencial</button>
-
-
+<button class="custom-button search" id="funcionesHash">Búsqueda por transformación de claves o hash</button>
+<button class="custom-button profile" id="busquedaBinaria">Búsqueda Binaria</button>
+<button class="custom-button cart" id="busquedaSecuencial">Búsqueda Secuencial</button>
 
 {% endif %}
+
 
 <script>
     document.getElementById("funcionesHash").addEventListener("click", function() {
