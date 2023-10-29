@@ -1,18 +1,35 @@
 {% extends 'base.html' %}
-
 {% block style %}
-
 <style>
-    /* Estilo básico para la tabla */
+    /* Estilos CSS aquí */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: linear-gradient(135deg, rgb(133, 45, 215) 0%, rgb(80, 89, 209) 100%);background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2 {
+        color: #333;
+    }
+
     table {
-        width: 20%;
+        width: 100%;
         border-collapse: collapse;
         margin: 20px 0;
     }
 
     th, td {
-        border: 1px solid black;
-        padding: 8px 12px;
+        border: 1px solid #ccc;
+        padding: 8px;
         text-align: center;
     }
 
@@ -23,68 +40,92 @@
     tr:hover {
         background-color: #f5f5f5;
     }
-    .container {
-        display: flex;
-        flex-direction: row;
-        margin: 20px 0;
+
+    .form {
+        margin-top: 20px;
     }
 
-    .cubeta {
-        border: 1px solid black;
-        margin-right: 20px;
-        min-width: 100px;
-        text-align: center;
+    .btn {
+        display: block;
+        width: 32%;
+        margin-bottom: 10px;
+    }
+
+    .error-message {
+        color: red;
+    }
+
+    .main-container {
+        margin-top: 20px;
     }
 
     .header {
         background-color: #f2f2f2;
-        padding: 8px 12px;
     }
 
     .valor {
-        border-top: 1px solid black;
-        padding: 8px 12px;
+        border-top: 1px solid #ccc;
+        padding: 8px;
     }
 
     .valor:last-child {
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid #ccc;
+    }
+    .button-container {
+        display: flex; /* Utiliza flexbox para alinear los botones horizontalmente */
+        justify-content: space-between; /* Distribuye los botones uniformemente en el contenedor */
+        margin-top: 10px; /* Añade espacio superior si es necesario */
     }
 
-    .main-container {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+    .error-box.blue {
+        background-color: #cce4ff;
+        border: 1px solid #0066cc;
+        color: #0066cc;
     }
+
+
+    .container-cubetas {
+        display: flex;
+
+    }
+    .cubeta {
+            padding: 7px;
+            border: 1px solid #000;
+            display: flex;
+            text-align: center;
+            flex-direction: column;
+            flex: 1;
+    }
+    .cubeta:first-child {
+        margin-left: 80px;
+    }
+
+
+    
+    
 </style>
 {% endblock %}
 
 {% block content %}
-
+<div class="container">
 <form action="/dinamic_structures" method="post">
     <!-- Hidden input fields for vehicle context -->
     
     <h1>Ingrese una clave y seleccione que desea hacer</h1>
     <input type="hidden" name="aux" value="False">
-    <input type="text" name="value" id="value" class="form-control" placeholder="value" required>
-    <span id="error-message" style="color: red;"></span>
-    <button type="submit" class="btn btn-primary btn-block px-20" value="insert" name="operations">Ingresar clave</button>
-    <button type="submit" class="btn btn-primary btn-block px-20" value="delete" name="operations">Eliminar clave</button>
-    <button type="submit" class="btn btn-primary btn-block px-20" value="search" name="operations">Buscar clave</button>
+    <input type="text" name="value" id="value" class="form-control px-20" placeholder="value" required>
+    <div  class="button-container">
+        <button type="submit" class="btn btn-primary btn-block px-20" value="insert" name="operations">Ingresar clave</button>
+        <button type="submit" class="btn btn-primary btn-block px-20" value="delete" name="operations">Eliminar clave</button>
+        <button type="submit" class="btn btn-primary btn-block px-20" value="search" name="operations">Buscar clave</button>
+    </div>
     <!-- <button type="submit" class="btn btn-primary btn-block px-20" value="length" name="length">Cambia longitud de digitos</button> -->
 
-    <p class="error-message">{% if message != None %} {{ message }} {% endif %}</p>
+    <div id=".error-box.blue" class="error-box blue">
+        {% if message != None %} {{ message }} {% endif %}
+    </div>
     <!-- client[8]  ---- i_rent -->
 </form>
-
-
-
-
-
-
-
-
-
-
 
 
 <h2>Información de Estructura</h2>
@@ -142,7 +183,7 @@
     </table>
 
     <!-- Visualización del diccionario lista_colisiones -->
-    <div class="container">
+    <div class="container-cubetas">
         {% for key, value in my_structure.lista_colisiones.items() %}
             <div class="cubeta">
                 <div class="header">{{ key }}</div>
@@ -171,7 +212,7 @@
     </tbody>
 </table>
 
-
+</div>
 
 
 

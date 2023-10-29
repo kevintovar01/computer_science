@@ -10,10 +10,14 @@
   {% block style %}
   {% endblock %}
   <style>
+    .center-buttons {
+      text-align: center;
+    }
+    
     h1, h2, h3, h4, h5, h6{
       font-family: 'Caveat', cursive;
   }
-  .custom-form h2 {
+  .custom-form h2,h1,h3 {
       font-size: 1.8em;
       color: #ffffff;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
@@ -90,7 +94,10 @@
 
     }
 
+
+
     .custom-button {
+      margin: 0 auto;
       margin-bottom: 25px;
       max-height: 100px;
       width: auto; /* Ancho reducido */
@@ -107,6 +114,7 @@
       font-weight: bold;
       cursor: pointer;
       transition: background-color 0.3s, transform 0.2s;
+      
     }
 
     .custom-button:hover {
@@ -116,6 +124,7 @@
 
     .custom-button.search {
         background-color: #FFFFFF;
+        
     }
 
     .custom-button.profile {

@@ -2,9 +2,88 @@
 
 {% block style %}
 <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-height: 400px;
+        display: flex;
+        justify-content: center;
+        background: linear-gradient(135deg, rgb(133, 45, 215) 0%, rgb(80, 89, 209) 100%);
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+       
+    }
+
+    .centered-table,
+    .table-container {
+        border: 1px solid #ccc; /* Agrega un borde para visualización */
+        padding: 10px; /* Agrega un relleno para un mejor aspecto */
+        flex: 1; /* Esto hará que ambos divs se expandan para ocupar el espacio disponible */
+        overflow-x: auto; 
+    overflow-y: auto; 
+
+    }
+
+    h1, h2 {
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    .form {
+        margin-top: 20px;
+    }
+
+    .btn {
+        display: block;
+        width: 36%;
+        margin-bottom: 10px;
+    }
+
+    .error-box.red {
+        background-color: #b8000082;
+        color: #ff0000;
+    }
+
+    .error-box.blue {
+        background-color: #cce4ff;
+        color: #0066cc;
+    }
+    
+   
+
+    .main-container {
+        margin-top: 20px;
+    }
+
     .centered-table {
-        width: 10%; /* O el ancho que prefieras */
-        margin: 20px auto; /* auto centrará la tabla horizontalmente */
+        width: 27%;
+        margin: 0px auto;
+        margin-right: 3%;
     }
 
     table {
@@ -25,20 +104,24 @@
     tr:hover {
         background-color: #f5f5f5;
     }
-    .error-message {
-    text-align: center;
-    color: #044fdb;
-    font-size: 18px;
-    margin-top: 10px;
-  }
+    
+
+  .button-container {
+    display: flex; /* Utiliza flexbox para alinear los botones horizontalmente */
+    justify-content: space-between; /* Distribuye los botones uniformemente en el contenedor */
+    margin-top: 10px; /* Añade espacio superior si es necesario */
+}
+
 </style>
 {% endblock %}
 
 {% block content %}
 
+<div class="container">
 {% if aux == False %}
-<h1>{{colision_name}}</h1>
-    <h1>{{search_type}}</h1>
+<div class="custom-form">
+    <h2>Porfavor Elije un tamaño de digitos para tu clave</h2>
+    <h1>Estas Utilizando: {{search_type}}</h1>
     
     <form action="/verification" method="post">
         <input type="hidden" name="colision_name" value="{{colision_name}}">
@@ -46,86 +129,88 @@
         <input type="text" name="value" id="size" class="form-control" placeholder="Tamaño" required>
         <button type="submit" class="btn btn-primary btn-block px-20" value="accept" name="accept">Aceptar</button>
     </form>
+</div>
 {% else%}
     <form action="{% if search_type != 'secuencial' and search_type != 'binary_search' %} /Operation {% else %} /Binary_operation {% endif %}" method="post">
         <!-- Hidden input fields for vehicle context -->
         
-        <h1>Ingrese una clave y seleccione que desea hacer</h1>
-        <h1>{{colision_name}}</h1>
-
-        <h1>{{digits}}</h1>
-        <h1>{{ search_type }}</h1>
+        <h2>Ingrese una clave y seleccione que desea hacer</h2>
+        <h2>El rango que usted eligio para los digitos es de: {{digits}}</h2>
         <input type="hidden" name="colision_name" value="{{colision_name}}">
 
         <input type="hidden" name="aux" value="False">
         <input type="text" name="value" id="value" class="form-control" placeholder="value" required>
-        <span id="error-message" style="color: red;"></span>
-        <button type="submit" class="btn btn-primary btn-block px-20" value="insert" name="operations">Ingresar clave</button>
-        <button type="submit" class="btn btn-primary btn-block px-20" value="delete" name="operations">Eliminar clave</button>
-        <button type="submit" class="btn btn-primary btn-block px-20" value="search" name="operations">Buscar clave</button>
-        <button type="submit" class="btn btn-primary btn-block px-20" value="length" name="length">Cambia longitud de digitos</button>
-        {% if search_type == 'secuencial' or search_type == 'binary_search' %} 
-            <button type="submit" class="btn btn-primary btn-block px-20" value="sort" name="operations">Ordenar Estructura</button>
-        {% endif %}
-
+        <div class="error-box red">
+            <span id="error-message" style="color: red;"></span>
+        </div>
+        <div class="button-container">
+            <button type="submit" class="btn btn-primary btn-block px-20" value="insert" name="operations" style="width: 23%;">Ingresar clave</button>
+            <button type="submit" class="btn btn-primary btn-block px-20" value="delete" name="operations" style="width: 23%;">Eliminar clave</button>
+            <button type="submit" class="btn btn-primary btn-block px-20" value="search" name="operations" style="width: 23%;">Buscar clave</button>
+            <button type="submit" class="btn btn-primary btn-block px-20" value="length" name="length" style="width: 23%;">Cambia longitud de digitos</button>
+    
+            {% if search_type == 'secuencial' or search_type == 'binary_search' %} 
+                <button type="submit" class="btn btn-primary btn-block px-20" value="sort" name="operations">Ordenar Estructura</button>
+            {% endif %}
+        </div>
         <input type="hidden" value="{{ colision_name }}">
         <input type="hidden" name="search_type" value="{{ search_type }}">
-        <p class="error-message">{% if message != None %} {{ message }} {% endif %}</p>
-        <!-- client[8]  ---- i_rent -->
+        {% if message is not none %} 
+            <div class="error-box blue ">
+                {{ message }} 
+            </div>
+        {% endif %}
     </form>
-
-{% endif %}
-
-<div class="centered-table">
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for value in hash.memory %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ value }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {% endif %}
 </div>
-
-
-<div class="main-container">
-    {% if colision_name == 'arreglo anidado' %}
-    <div class="table-container">
+<div class="container">
+    <div class="centered-table">
         <table>
             <thead>
                 <tr>
-                    <!-- Espacio en blanco para la esquina superior izquierda -->
-                    <th></th>
-                    <!-- Encabezados de las columnas enumerados desde 0 -->
-                    {% for col in hash.anidado[0] %}
-                        <th>Col {{ loop.index0 }}</th>
-                    {% endfor %}
+                    <th>#</th>
+                    <th>Value</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Datos de la matriz -->
-                {% for row in hash.anidado %}
+                {% for value in hash.memory %}
                     <tr>
-                        <!-- Número de fila en la primera columna -->
-                        <td>{{ loop.index0 }}</td>
-                        {% for item in row %}
-                            <td>{{ item }}</td>
-                        {% endfor %}
+                        <td>{{ loop.index }}</td>
+                        <td>{{ value }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    
-    {% elif colision_name == 'lista encadenada' %}
+
+    {% if colision_name == 'arreglo anidado' %}
+    <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <!-- Espacio en blanco para la esquina superior izquierda -->
+                        <th></th>
+                        <!-- Encabezados de las columnas enumerados desde 0 -->
+                        {% for col in hash.anidado[0] %}
+                            <th>Col {{ loop.index0 }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Datos de la matriz -->
+                    {% for row in hash.anidado %}
+                        <tr>
+                            <!-- Número de fila en la primera columna -->
+                            <td>{{ loop.index0 }}</td>
+                            {% for item in row %}
+                                <td>{{ item }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% elif colision_name == 'lista encadenada' %}
         <div class="table-container">
             <table>
                 <thead>
@@ -152,9 +237,8 @@
                 </tbody>
             </table>
         </div>
-    {% endif %}
+        {% endif %}
 </div>
-
 
 
 <script>
