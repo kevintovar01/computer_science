@@ -13,7 +13,9 @@
         max-height: 400px;
         display: flex;
         justify-content: center;
-        background: linear-gradient(135deg, rgb(133, 45, 215) 0%, rgb(80, 89, 209) 100%);
+        /* background: linear-gradient(135deg, rgb(133, 45, 215) 0%, rgb(80, 89, 209) 100%); */
+
+        background: linear-gradient(135deg, rgb(114 41 186 / 52%) 0%, rgb(75 85 210 / 79%) 100%);
         background-color: #fff;
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -153,7 +155,7 @@
                 <button type="submit" class="btn btn-primary btn-block px-20" value="sort" name="operations">Ordenar Estructura</button>
             {% endif %}
         </div>
-        <input type="hidden" value="{{ colision_name }}">
+        <input type="hidden" name="colision_name" value="{{ colision_name }}">
         <input type="hidden" name="search_type" value="{{ search_type }}">
         {% if message is not none %} 
             <div class="error-box blue ">

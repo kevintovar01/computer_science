@@ -272,7 +272,7 @@ def operations():
     if operation == 'insert':
         messages, value, index = my_hash.insert(value, function, fuction_colision, name_colision)
     elif operation == 'delete':
-        messages= my_hash.delete(value, function, fuction_colision, name_colision)  #fuction is our Hash
+        messages= my_hash.delete(value, function, fuction_colision, colision_name)  #fuction is our Hash
     elif operation == 'search':
         messages=my_hash.search(value, function, fuction_colision)
     else:
