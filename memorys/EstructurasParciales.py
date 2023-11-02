@@ -7,7 +7,7 @@ class Est_Parcial:
         self.filas = filas
         self.tasa_expansion = tasa_expansion
         self.tasa_reduccion = tasa_reduccion
-        self.memoria = [[0 for _ in range(cubetas)] for _ in range(filas)]
+        self.memoria = [[None for _ in range(cubetas)] for _ in range(filas)]
         self.lista_colisiones =  {i:[] for i in range(cubetas)}
         self.historial_claves = []
         self.claves_totales = 0
@@ -43,7 +43,7 @@ class Est_Parcial:
         
         aux = False
         for i in range(self.filas):
-            if self.memoria[i][indice] == 0:
+            if self.memoria[i][indice] == None:
                 self.memoria[i][indice] = clave
                 aux = True
                 message = f"La clave {clave} se ha insertado en la cubeta {indice} en la fila {i} satisfactoriamente."
@@ -66,17 +66,17 @@ class Est_Parcial:
     def expandir(self):
         if self.tipo_expansion == "total":
             self.cubetas = self.cubetas * 2
-            self.memoria = [[0 for _ in range(self.cubetas)] for _ in range(self.filas)]
+            self.memoria = [[None for _ in range(self.cubetas)] for _ in range(self.filas)]
         else:
             if self.cubetas > 3:
                 aux = self.cubetas
-                self.memoria = [[0 for _ in range(self.previous*2)] for _ in range(self.filas)]
+                self.memoria = [[None for _ in range(self.previous*2)] for _ in range(self.filas)]
                 self.cubetas = self.previous*2
                 self.previous = aux
             else:
                 self.previous = self.cubetas
                 self.cubetas+=1
-                self.memoria = [[0 for _ in range(self.cubetas)] for _ in range(self.filas)]
+                self.memoria = [[None for _ in range(self.cubetas)] for _ in range(self.filas)]
 
 
         message = f", La tasa de Expansión ha sido superada, por lo que vamos a expandir la estructura.\nEl nuevo número de cubetas será {self.cubetas}"
@@ -105,7 +105,7 @@ class Est_Parcial:
         
         # Si la clave está en la memoria principal
         if resultado["tipo"] == "Memoria Principal":
-            self.memoria[resultado['fila']][resultado['indice']] = 0
+            self.memoria[resultado['fila']][resultado['indice']] = None
             if len(self.lista_colisiones[resultado['indice']]) > 0:
                 self.memoria[resultado['fila']][resultado['indice']] = self.lista_colisiones[resultado['indice']][0]
                 self.lista_colisiones[resultado['indice']].pop(0)

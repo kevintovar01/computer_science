@@ -10,7 +10,7 @@ class Search:
         
         if len(self.memory) < self.length:
             self.memory.append(value)
-            return f"Clave {value} insertada en la posicion {0}"
+            return f"La clave {value} insertada"
         else:
             return f"Espacio insuficiente De la Estructura"
         
@@ -31,7 +31,7 @@ class Search:
 
             medio = (left+right)//2
             if self.memory[medio] == objective:
-                return f"La clave {objective} se encuentra en la posicion"
+                return f"La clave {objective} se encuentra en la posicion {self.memory.index(objective)+1}"
             elif self.memory[medio] < objective:
                 left = medio+1
             else:

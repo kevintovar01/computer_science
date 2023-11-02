@@ -24,12 +24,12 @@ class HashTrasformation:
 
         if self.memory[index] == value:
             print("El número", value, "fue encontrado en la posición", index)
-            return value, index, f"El número {value} fue encontrado en la posición {index}"
+            return value, index, f"El número {value} fue encontrado en la posición {index+1}"
         else:
             index = funtion_colision(self.memory, index, value)     
-            print("El número", value, f"fue encontrado en la posición {index}" if index != None else "No se encuentra en la memoria")
+            print("El número", value, f"fue encontrado en la posición {index+1}" if index != None else "No se encuentra en la memoria")
 
-        return value, index, f"El número {value} fue encontrado en la posición {index}" if index != None else "No se encuentra en la memoria"
+        return value, index, f"El número {value} fue encontrado en la posición {index+1}" if index != None else "No se encuentra en la memoria"
 
 
     def insert(self, value, function_hash, funtion_colision=None, name_colision=None):     

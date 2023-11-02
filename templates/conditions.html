@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
 
+
+
+{% block navbar %}
+    {% with structures = True %}
+        {% include 'navbar.html' %}
+    {% endwith %}   
+{% endblock %}
+
+
+
 {% block style %}
 <style>
     body {
@@ -52,8 +62,9 @@
 
 {% endblock %}
 
+
 {% block content %}
-<form action="/Conditions" method="post">
+<form id="validationForm" action="/Conditions" method="post">
     <h1>Estas utilizando la funcion {{ name }} para esta estructura, selecciona las condiciones que esta llevara</h1>
     <label for="cube">Ingrese tamaño que desea por cubetas múltiplo de 2:</label>
     <input type="number" name="cube" id="cube" required>
@@ -68,13 +79,19 @@
     <input type="number" name="row" id="row" required>
     <input type="hidden" name="structure" value="{{ structure }}">
     <input type="hidden" name="hash" value="{{ hash }}">
-
-    <input type="submit"  id="validationForm"  value="Validar">
+    <div id="errorMessage" style="color: red; display: none;"></div>
+    <input type="submit" value="Validar">
 </form>
 
 <script>
     document.getElementById("validationForm").addEventListener("submit", function(event) {
         event.preventDefault();
+        const errorMessageDiv = document.getElementById("errorMessage");
+
+        // Restablece el mensaje de error y oculta el div al inicio de la validación
+        errorMessageDiv.innerText = "";
+        errorMessageDiv.style.display = "none";
+
 
         const cube = parseInt(document.getElementById("cube").value);
         const tasa_expansion = parseInt(document.getElementById("tasa_expansion").value);
@@ -82,26 +99,33 @@
         const row = parseInt(document.getElementById("row").value);
 
         if (cube % 2 != 0 || cube < 2) {
-            alert("El tamaño por cubetas tiene que ser múltiplo de 2 y mayor que 2.");
+            errorMessageDiv.innerText = "El tamaño por cubetas tiene que ser múltiplo de 2 y mayor que 2.";
+            errorMessageDiv.style.display = "block";
+
             return;
         }
 
         if (tasa_expansion >= 90 || tasa_expansion < 0) {
-            alert("La tasa de expansión está muy alta, esto podría generar error a futuro. Por favor, cambia el valor.");
+            errorMessageDiv.innerText = "La tasa de expansión está muy alta, esto podría generar error a futuro. Por favor, cambia el valor.";
+            errorMessageDiv.style.display = "block";
             return;
         }
 
         if (tasa_reduccion < 0 || tasa_reduccion > 200 ) {
-            alert("La tasa de reducción no es válida, por favor intenta de nuevo.");
+            errorMessageDiv.innerText = "La tasa de reducción no es válida, por favor intenta de nuevo.";
+            errorMessageDiv.style.display = "block";
             return;
         }
 
         if (row < 1) {
-            alert("El valor que intentas ingresar es incorrecto, intenta con un valor mayor a 1.");
+            errorMessageDiv.innerText = "El valor que intentas ingresar es incorrecto, intenta con un valor mayor a 1.";
+            errorMessageDiv.style.display = "block";
             return;
         }
 
-        alert("Los valores ingresados son válidos!");
+
+        this.submit();
+    
     });
 </script>
 {% endblock %}

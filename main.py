@@ -14,6 +14,8 @@ digits = None
 my_structure = None
 
 function = None
+hash_fuction = None
+
 fuction_colision = None
 
 
@@ -114,6 +116,7 @@ def view_structures():
 @app.route('/Internal_memory', methods=['GET', 'POST'])
 def internal_memory():
     aux = False
+    
     if request.method == 'POST':
 
         global my_hash
@@ -146,16 +149,23 @@ def binary_search():
     return render_template('hash_fuction.html', **context)
 
 
+
+
 @app.route('/Hash', methods=['GET','POST'])
 def hash():
     global function
     global my_hash
+    global hash_fuction
     hash_truncamiento = None
+    temp = hash_fuction
     hash_fuction = request.form.get('hash_fuction')
     
     if hash_fuction == None:
         hash_truncamiento = request.form.get('hash_truncamiento')
-        hash_fuction = "hash truncamiento"
+        if hash_truncamiento != None:
+            hash_fuction = "hash truncamiento"
+        else:
+            hash_fuction = temp
 
         print(hash_truncamiento)
         
@@ -163,8 +173,11 @@ def hash():
 
     is_structure = request.form.get('structure')
 
+    if is_structure == None:
+        is_structure = my_structure.tipo_expansion
+
     print(is_structure)
-    if is_structure == 'total' or is_structure == 'parcial':
+    if is_structure != None:
         my_hash = HashTrasformation(0, True)
         
 
@@ -177,16 +190,20 @@ def hash():
     }
 
     aux = function
+
     function = functions_hash[hash_fuction]
+
+
     if function != aux:
         my_hash.reset_list()
     
     if hash_truncamiento == '0' or hash_truncamiento == '1':
         my_hash.order = int(hash_truncamiento)
     
+    
 
 
-    if is_structure == 'total' or is_structure == 'parcial':
+    if is_structure != None:
         context = {'name': hash_fuction,'hash': my_hash, 'structure':is_structure}
         return render_template('conditions.html', **context)
     
@@ -200,7 +217,7 @@ def hash():
 
     return render_template('colisions_methods.html', **context)
 
-@app.route('/Colisions', methods=['POST'])
+@app.route('/Colisions', methods=['GET','POST'])
 def Colisions():
     print("La ruta /Colisions fue llamada")
     global fuction_colision
@@ -270,7 +287,7 @@ def operations():
     elif operation == 'delete':
         messages= my_hash.delete(value, function, fuction_colision, colision_name)  #fuction is our Hash
     elif operation == 'search':
-        messages=my_hash.search(value, function, fuction_colision)
+        value, index, messages=my_hash.search(value, function, fuction_colision)
     else:
         digits = value
         messages = 'La longitud a sido cambiada'
@@ -302,12 +319,13 @@ def binary_operation():
 
     if operation == 'insert':    
         messages = my_hash.append_list(value)
+        # messages = f"La clave {value} ha sido insertada"
     elif operation == 'delete':
         messages= my_hash.delete(value)  #fuction is our Hash
     elif operation == 'sort':
         messages = my_hash.bubble_sort()
     elif operation == 'search':
-        if search_type == 'secuencial':
+        if search_type == 'Secuencial':
             messages = my_hash.sequence_search(value)
         else:
             aux = my_hash.bubble_sort()

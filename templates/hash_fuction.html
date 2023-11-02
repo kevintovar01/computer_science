@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% block style %}
 <style>
     body {
@@ -116,14 +117,29 @@
 </style>
 {% endblock %}
 
+
+{% block navbar %}
+    {% if search_type == Binaria or search_type == Secuencial %}
+        {% with additional_links = true %}
+            {% include 'navbar.html' %}
+        {% endwith %}
+    {% else %}
+        {% with additional_links = false %}
+            {% include 'navbar.html' %}
+        {% endwith %}
+    {% endif %}
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
 {% if aux == False %}
 <div class="custom-form">
     <h2>Porfavor Elije un tamaño de digitos para tu clave</h2>
-    <h1>Estas Utilizando: {{search_type}}</h1>
-    
+        
+    {% if search_type != Binaria or search_type != Secuencial%}
+        <h1>Estas Utilizando Busqueda {{search_type}}</h1>
+    {% endif %}
     <form action="/verification" method="post">
         <input type="hidden" name="colision_name" value="{{colision_name}}">
         <input type="hidden" name="aux" value="{{ search_type }}">
@@ -132,9 +148,7 @@
     </form>
 </div>
 {% else%}
-    <form action="{% if search_type != 'secuencial' and search_type != 'binary_search' %} /Operation {% else %} /Binary_operation {% endif %}" method="post">
-        <!-- Hidden input fields for vehicle context -->
-        
+    <form action="{% if search_type != 'Secuencial' and search_type != 'Binaria' %} /Operation {% else %} /Binary_operation {% endif %}" method="post">
         <h2>Ingrese una clave y seleccione que desea hacer</h2>
         <h2>El rango que usted eligio para los digitos es de: {{digits}}</h2>
         <input type="hidden" name="colision_name" value="{{colision_name}}">
@@ -148,10 +162,9 @@
             <button type="submit" class="btn btn-primary btn-block px-20" value="insert" name="operations" style="width: 23%;">Ingresar clave</button>
             <button type="submit" class="btn btn-primary btn-block px-20" value="delete" name="operations" style="width: 23%;">Eliminar clave</button>
             <button type="submit" class="btn btn-primary btn-block px-20" value="search" name="operations" style="width: 23%;">Buscar clave</button>
-            <button type="submit" class="btn btn-primary btn-block px-20" value="length" name="length" style="width: 23%;">Cambia longitud de digitos</button>
-    
-            {% if search_type == 'secuencial' or search_type == 'binary_search' %} 
-                <button type="submit" class="btn btn-primary btn-block px-20" value="sort" name="operations">Ordenar Estructura</button>
+            <button type="submit" class="btn btn-primary btn-block px-20" value="length" name="length" style="width: 23%;">Cambia longitud de digitos</button>    
+            {% if search_type == 'Secuencial' or search_type == 'Binaria' %} 
+                <button type="submit" class="btn btn-primary btn-block px-20" value="sort" name="operations" style="width: 23%;">Ordenar Estructura</button>
             {% endif %}
         </div>
         <input type="hidden" name="colision_name" value="{{ colision_name }}">

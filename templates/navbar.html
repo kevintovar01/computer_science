@@ -13,26 +13,11 @@
     padding: 15px 20px; /* Espaciado */
 }
 
-/* Cambio del estilo al pasar el mouse */
-.nav-link:hover, .nav-link:focus {
-    color: #e50914; /* Rojo característico de Netflix */
-    text-decoration: none;
-}
-
-/* Estilo específico para 'Home' */
-.nav-link[href="/"] {
-    color: #e50914; /* Rojo de Netflix para destacar */
-}
 
 /* Solo afecta el 'Home' en hover */
-.nav-link[href="/"]:hover {
-    color: #fff;
-    background-color: #e50914;
-    border-radius: 4px; /* Bordes redondeados */
-}
-
-.navbar-toggler {
-    border-color: #fff;
+.nav-link:hover {
+    background-color: #5609e5;
+    border-radius: 7px; /* Bordes redondeados */
 }
 
 
@@ -48,10 +33,42 @@
           <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                  <a class="nav-link text-white" href="/">Home</a>
-              </li>
+          <ul class="navbar-nav ms-auto">
+              
+              {% block links %}
+              
+
+                {% if additional_links %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Hash_fuctions">Funciones hash</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Hash">Colisiones</a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Internal_memory">Nuevo Tamaño estructura</a>
+                    </li>
+                {% elif additional_links == false %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Internal_memory">Nuevo Tamaño estructura</a>
+                    </li>
+                {% endif %}
+
+                {% if structures %}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/Hash">Conditions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/External_memory">Memoria Externa</a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/">Home</a>
+                  </li>
+
+              {% endblock %}
           </ul>
       </div>
   </div>

@@ -106,6 +106,12 @@
 </style>
 {% endblock %}
 
+{% block navbar %}
+    {% with structures = True %}
+        {% include 'navbar.html' %}
+    {% endwith %}    
+{% endblock %}
+
 {% block content %}
 <div class="container">
 <form action="/dinamic_structures" method="post">
@@ -128,7 +134,7 @@
 </form>
 
 
-<h2>Información de Estructura</h2>
+<h2>Información de la Estructura {{ structure }}</h2>
 
 <table>
     <tr>
@@ -195,6 +201,8 @@
     </div>
 </div>
 
+<h2> Hisrotial de claves ingresadas</h2>
+
 <table>
     <thead>
         <tr>
@@ -205,7 +213,7 @@
     <tbody>
         {% for clave in my_structure.historial_claves %}
             <tr>
-                <td>{{ loop.index0 }}</td>
+                <td>{{ loop.index1 }}</td>
                 <td>{{ clave }}</td>
             </tr>
         {% endfor %}
