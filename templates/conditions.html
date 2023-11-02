@@ -3,7 +3,9 @@
 {% block style %}
 <style>
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Quicksand', sans-serif;
+
+
         background-color: #f4f4f4;
         display: flex;
         justify-content: center;
@@ -14,10 +16,10 @@
 
     form {
         background-color: #fff;
-        padding: 20px;
-        border-radius: 5px;
+        padding: 40px;
+        border-radius: 21px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 300px;
+        width: 48%;
     }
 
     label {
@@ -52,7 +54,7 @@
 
 {% block content %}
 <form action="/Conditions" method="post">
-    <h1>{{ name }}</h1>
+    <h1>Estas utilizando la funcion {{ name }} para esta estructura, selecciona las condiciones que esta llevara</h1>
     <label for="cube">Ingrese tamaño que desea por cubetas múltiplo de 2:</label>
     <input type="number" name="cube" id="cube" required>
 

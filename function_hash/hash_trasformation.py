@@ -163,7 +163,7 @@ class HashTrasformation:
 
         aux = len(str(self.length))+1
         if len(element) <= len(str(self.length)):
-            aux = int(element)
+            aux = len(element)
 
         code = [element[i] for i in range(aux) if i%2 == self.order]
         index = int(''.join(map(str, code))) + 1

@@ -5,10 +5,6 @@ from binary_search.search import Search
 
 from flask import Flask, render_template, request, redirect, url_for
 
-
-
-
-
 app = Flask(__name__)
 app = Flask(__name__, static_url_path='/static')
 
