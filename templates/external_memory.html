@@ -42,7 +42,7 @@
       </div>
 
       <button class="custom-button search" id="hashingDinamico">Hashing Dinamico</button>
-      <!-- <button class="custom-button profile" id="busquedaBinaria">Busqueda Binaria</button> -->
+      <button class="custom-button profile" id="Indices">Indices</button>
     </div>
 
     <script>
@@ -50,6 +50,12 @@
       document.getElementById("hashingDinamico").addEventListener("click", function() {
         var type = "Hashing Dinamico";
         var url = "/External_memory?type=" + encodeURIComponent(type);
+        window.location.href = url; // Redirige a la URL que has construido
+      });
+
+      document.getElementById("Indices").addEventListener("click", function() {
+        var type = "Indices";
+        var url = "/index?type=" + encodeURIComponent(type);
         window.location.href = url; // Redirige a la URL que has construido
       });
       </script>

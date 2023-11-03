@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indices</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/style.css') }}">
+    
+    
+</head>
+<body>
+    {% block navbar %}
+    {% include 'navbar.html' %}
+    {% endblock %}
+
+    <div id="buttons">
+        <button type="button" id="indexPrimary_oneLevel">Indices Primarios de Un Solo Nivel</button>
+        <button type="button" id="indexSecondary_oneLevel">Indices Secundarios de Un Solo Nivel</button>
+        <button type="button" id="indexPrimary_multipleLevel">Indices Primarios multiNivel</button>
+        <button type="button" id="indexSecondary_multipleLevel">Indices Secundarios Multinivel</button>
+    </div>
+    <section id="container">
+        <form id="form-structure">
+            <label>Capacidad de Memoria de Cada Bloque</label>
+            <input id="form-structure_capBloque" type="text" placeholder="Ingrese la capacidad en memoria de cada bloque"/>
+            <label>Cantidad de Registros a insertar</label>
+            <input id="form-structure_cantRegistros" type="text" placeholder="Ingrese la cantidad de registros a insertar"/>
+            <label>Longitud en memoria de un Registro</label>
+            <input id="form-structure_longRegistro" type="text" placeholder="Ingrese la longitud en memoria de un registro"/>
+            <label>Longitud en memoria de un Índice</label>
+            <input id="form-structure_longIndice" type="text" placeholder="Ingrese la longitud en memoria de un índice"/>
+            <button type="button" id="form-structure_submit">Generar Estructura</button>
+        </form>
+    
+        <form id="form-key">
+            <input id="form-key_keyInput" type="text" placeholder="Ingrese una clave"/>
+            <input id="form-key_nameInput" type="text" placeholder="Ingrese un nombre"/>
+            <input id="form-key_lastNameInput" type="text" placeholder="Ingrese un apellido"/>
+            <button type="button" id="form-key_addKey" >Agregar Clave</button>
+            <button type="button" id="form-key_findKey" >Buscar Clave</button>
+            <button type="button" id="form-key_deleteKey" >Eliminar Clave</button>
+        </form>
+    
+        <div id="structure">
+    
+        </div>
+    </section>
+    <script src="../static/index.js"></script>
+</body>
+</html>

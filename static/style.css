@@ -1,0 +1,148 @@
+th,
+td, tr {
+  height: 35px;
+  border: 2px solid #422800;
+}
+
+body {
+  background-color: rgb(55, 55, 55);
+}
+
+*{
+  font-size: 30px;
+}
+
+#buttons{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 11px;
+  margin-top: 200px;
+}
+
+#container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 100px;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+#form-structure {
+  display: flex;
+  flex-direction: column;
+  width: 390px;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+#form-key {
+  display: flex;
+  flex-direction: column;
+  width: 390px;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+#structure {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 10px;
+  justify-content: space-evenly;
+  align-items: center;
+  overflow: auto;
+  padding-right: 15px;
+}
+
+table{
+  background-color: #fbeee0;
+  border: 1px solid #fffaf2;
+  border-radius: 10px;
+  color: #422800;
+  display: inline;
+  font-size: 12px;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+input {
+  background-color: #fbeee0;
+  border: 2px solid #fffaf2;
+  border-radius: 10px;
+  color: #422800;
+  display: inline-block;
+  font-weight: 40px;
+  font-size: 17px;
+  padding: 7px;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+label {
+  background-color: #ffc07d;
+  border: 2px solid #fffaf2;
+  border-radius: 10px;
+  color: #422800;
+  display: inline-block;
+  font-size: 17px;
+  padding: 7px;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+button {
+  background-color: #fbeee0;
+  border: 2px solid #422800;
+  border-radius: 30px;
+  box-shadow: #422800 4px 4px 0 0;
+  color: #422800;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 0 18px;
+  line-height: 50px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+button:hover {
+  background-color: #fff;
+}
+
+button:active {
+  box-shadow: #422800 2px 2px 0 0;
+  transform: translate(2px, 2px);
+}
+
+#form-key,
+#form-structure, #structure{
+  display: none;
+}
+
+.navbar {
+  background-color: #080b0e;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
