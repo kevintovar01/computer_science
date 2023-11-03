@@ -135,11 +135,13 @@
 <div class="container">
 {% if aux == False %}
 <div class="custom-form">
-    <h2>Porfavor Elije un tamaño de digitos para tu clave</h2>
+    <div class="new-container">
+        <h2>Porfavor Elije un tamaño de digitos para tu clave</h2>
         
-    {% if search_type != Binaria or search_type != Secuencial%}
-        <h1>Estas Utilizando Busqueda {{search_type}}</h1>
-    {% endif %}
+        {% if search_type != Binaria or search_type != Secuencial%}
+            <h1>Estas Utilizando Busqueda {{search_type}}</h1>
+        {% endif %}
+    </div>
     <form action="/verification" method="post">
         <input type="hidden" name="colision_name" value="{{colision_name}}">
         <input type="hidden" name="aux" value="{{ search_type }}">
@@ -149,8 +151,10 @@
 </div>
 {% else%}
     <form action="{% if search_type != 'Secuencial' and search_type != 'Binaria' %} /Operation {% else %} /Binary_operation {% endif %}" method="post">
-        <h2>Ingrese una clave y seleccione que desea hacer</h2>
-        <h2>El rango que usted eligio para los digitos es de: {{digits}}</h2>
+        <div class="new-container">
+            <h2>Ingrese una clave y seleccione que desea hacer</h2>
+            <h2>El rango que usted eligio para los digitos es de: {{digits}}</h2>
+        </div>
         <input type="hidden" name="colision_name" value="{{colision_name}}">
 
         <input type="hidden" name="aux" value="False">

@@ -23,6 +23,16 @@ fuction_colision = None
 
 @app.route('/') #route
 def home():
+    global my_hash, colisions, digits, my_structure, function, fuction_colision, hash_fuction
+    my_hash = None
+    colisions = None
+    digits = None
+    my_structure = None
+
+    function = None
+    hash_fuction = None
+
+    fuction_colision = None
     return render_template('home.html')
 
 @app.route('/External_memory', methods=['GET', 'POST'])
@@ -47,29 +57,25 @@ def conditions():
         tasa_reduccion = int(request.form.get('tasa_reduccion'))
         row = int(request.form.get('row'))
         structure = request.form.get('structure')
+        digits = request.form.get('digits')
     else:
         structure = request.args.get('structure')
         return render_template('conditions.html' , structure=structure)
 
+    if structure == 'None':
+        structure = my_structure.tipo_expansion
 
+    my_structure = Est_Parcial(cube,row,tasa_expansion,tasa_reduccion, structure)
+    my_structure.function_hash = function
+    my_hash.length = cube
+    my_structure.my_hash = my_hash
 
-    # print(length)
-    if structure == 'total':
-        print("Total")
-        my_structure = Est_Parcial(cube,row,tasa_expansion,tasa_reduccion, structure)
-        my_structure.function_hash = function
-        my_hash.length = cube
-        my_structure.my_hash = my_hash
-    elif structure == 'parcial':
-        print("parcial")
-        my_structure = Est_Parcial(cube,row,tasa_expansion,tasa_reduccion, structure)
-        my_structure.function_hash = function
-        my_hash.length = cube
-        my_structure.my_hash = my_hash
+    
 
     context = {
         'my_structure': my_structure,
-        'structure': structure
+        'structure': structure,
+        'digits': digits
     }
     return render_template('view_structures.html',**context)
 
@@ -80,6 +86,8 @@ def view_structures():
     global my_hash
     operation = request.form.get('operations')
     value = int(request.form.get('value'))
+    digits = request.form.get('digits')
+    
 
     if operation == 'insert':
         messages, value, index = my_hash.insert(value, function)
@@ -106,6 +114,7 @@ def view_structures():
                 'message': messages,
                 'my_structure': my_structure,
                 'structure': my_structure.tipo_expansion,
+                'digits':digits,
                 'aux':True
             }
 
@@ -173,11 +182,11 @@ def hash():
 
     is_structure = request.form.get('structure')
 
-    if is_structure == None:
+    if is_structure == 'None' and my_structure != None:
         is_structure = my_structure.tipo_expansion
 
     print(is_structure)
-    if is_structure != None:
+    if is_structure != 'None':
         my_hash = HashTrasformation(0, True)
         
 
@@ -203,7 +212,7 @@ def hash():
     
 
 
-    if is_structure != None:
+    if is_structure != 'None':
         context = {'name': hash_fuction,'hash': my_hash, 'structure':is_structure}
         return render_template('conditions.html', **context)
     

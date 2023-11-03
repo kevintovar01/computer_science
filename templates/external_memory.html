@@ -4,7 +4,10 @@
 
 {% if aux == True %}
 <div class="custom-form">
-  <h2 class="text-center mb-4">Seleccione el tipo de expansión para la estructura</h2>
+  <div class="new-container">
+    <h2 class="text-center mb-4">Seleccione el tipo de expansión para la estructura</h2>
+  </div>
+
   <button class="custom-button search" id="totalExpansion" name="structure" value="total">Estructura De Expancion Total</button>
   <button class="custom-button profile" id="parcialExpancion" name="structure" value="parcial">Estructura De Expancion Parciales</button>
 </div>
@@ -34,9 +37,12 @@
 
 
     <div class="custom-form">
-      <h2 class="text-center mb-4">Qué tipo de búsqueda quiere que se haga en la estructura</h2>
+      <div class="new-container">
+        <h2 class="text-center mb-4">Qué tipo de búsqueda quiere que se haga en la estructura</h2>
+      </div>
+
       <button class="custom-button search" id="hashingDinamico">Hashing Dinamico</button>
-      <button class="custom-button profile" id="busquedaBinaria">Busqueda Binaria</button>
+      <!-- <button class="custom-button profile" id="busquedaBinaria">Busqueda Binaria</button> -->
     </div>
 
     <script>

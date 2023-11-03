@@ -138,7 +138,7 @@ class Est_Parcial:
 
         
         message = f", La tasa de Reducción ha sido superada, por lo que vamos a reducir la estructura.\nEl nuevo número de cubetas será {self.cubetas}"
-        self.memoria = [[0 for _ in range(self.cubetas)] for _ in range(self.filas)]
+        self.memoria = [[None for _ in range(self.cubetas)] for _ in range(self.filas)]
         self.lista_colisiones =  {i:[] for i in range(self.cubetas)}
 
         aux = self.historial_claves

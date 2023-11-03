@@ -15,6 +15,7 @@
         background: linear-gradient(135deg, rgb(133, 45, 215) 0%, rgb(80, 89, 209) 100%);background-color: #fff;
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius:4%;
     }
 
     h1, h2 {
@@ -100,7 +101,10 @@
         margin-left: 80px;
     }
 
-
+    .error-box.red {
+        background-color: #b8000038;
+        color: #ff0000;
+    }
     
     
 </style>
@@ -114,50 +118,57 @@
 
 {% block content %}
 <div class="container">
-<form action="/dinamic_structures" method="post">
-    <!-- Hidden input fields for vehicle context -->
-    
-    <h1>Ingrese una clave y seleccione que desea hacer</h1>
-    <input type="hidden" name="aux" value="False">
-    <input type="text" name="value" id="value" class="form-control px-20" placeholder="value" required>
-    <div  class="button-container">
-        <button type="submit" class="btn btn-primary btn-block px-20" value="insert" name="operations">Ingresar clave</button>
-        <button type="submit" class="btn btn-primary btn-block px-20" value="delete" name="operations">Eliminar clave</button>
-        <button type="submit" class="btn btn-primary btn-block px-20" value="search" name="operations">Buscar clave</button>
+    <div class="main-container">
+        <form action="/dinamic_structures" method="post">
+            <!-- Hidden input fields for vehicle context -->
+            
+            <h1>Ingrese una clave y seleccione que desea hacer</h1>
+            <input type="hidden" name="digits" value="{{ digits }}">
+            <input type="hidden" name="structure" value="{{ structure }}">
+            <input type="hidden" name="aux" value="False">
+            <input type="text" name="value" id="value" class="form-control px-20" placeholder="value" required>
+            <div class="error-box red">
+                <span id="error-message" style="color: red;"></span>
+            </div>
+            <div  class="button-container">
+                <button type="submit" class="btn btn-primary btn-block px-20" value="insert" name="operations">Ingresar clave</button>
+                <button type="submit" class="btn btn-primary btn-block px-20" value="delete" name="operations">Eliminar clave</button>
+                <button type="submit" class="btn btn-primary btn-block px-20" value="search" name="operations">Buscar clave</button>
+            </div>
+
+            <div id=".error-box.blue" class="error-box blue">
+                {% if message != None %} {{ message }} {% endif %}
+            </div>
+
+        </form>
     </div>
-    <!-- <button type="submit" class="btn btn-primary btn-block px-20" value="length" name="length">Cambia longitud de digitos</button> -->
+    <div class="main-container">
 
-    <div id=".error-box.blue" class="error-box blue">
-        {% if message != None %} {{ message }} {% endif %}
+        <h2>Información de la Estructura {{ structure }}</h2>
+        
+        <table>
+            <tr>
+                <th>Atributo</th>
+                <th>Valor</th>
+            </tr>
+            <tr>
+                <td>Tipo de expansión</td>
+                <td>{{ my_structure.tipo_expansion }}</td>
+            </tr>
+            <tr>
+                <td>Tasa de expansión</td>
+                <td>{{ my_structure.tasa_expansion }}%</td>
+            </tr>
+            <tr>
+                <td>Tasa de reducción</td>
+                <td>{{ my_structure.tasa_reduccion }}%</td>
+            </tr>
+            <tr>
+                <td>Cubetas</td>
+                <td>{{ my_structure.cubetas }}</td>
+            </tr>
+        </table>
     </div>
-    <!-- client[8]  ---- i_rent -->
-</form>
-
-
-<h2>Información de la Estructura {{ structure }}</h2>
-
-<table>
-    <tr>
-        <th>Atributo</th>
-        <th>Valor</th>
-    </tr>
-    <tr>
-        <td>Tipo de expansión</td>
-        <td>{{ my_structure.tipo_expansion }}</td>
-    </tr>
-    <tr>
-        <td>Tasa de expansión</td>
-        <td>{{ my_structure.tasa_expansion }}%</td>
-    </tr>
-    <tr>
-        <td>Tasa de reducción</td>
-        <td>{{ my_structure.tasa_reduccion }}%</td>
-    </tr>
-    <tr>
-        <td>Cubetas</td>
-        <td>{{ my_structure.cubetas }}</td>
-    </tr>
-</table>
 
 
 <!-- Visualización de la matriz -->
@@ -201,27 +212,61 @@
     </div>
 </div>
 
-<h2> Hisrotial de claves ingresadas</h2>
+    <div class="main-container">
 
-<table>
-    <thead>
-        <tr>
-            <th>Índice</th>
-            <th>Clave</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for clave in my_structure.historial_claves %}
-            <tr>
-                <td>{{ loop.index1 }}</td>
-                <td>{{ clave }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <h2> Hisrotial de claves ingresadas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Índice</th>
+                    <th>Clave</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for clave in my_structure.historial_claves %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ clave }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        
+    </div>
+
 
 </div>
 
+
+<script>
+
+    $("button[name='operations'][value='sort']").on("click", function() {
+        // Remueve el atributo "required" del campo de entrada
+        $("#value").removeAttr("required");
+    });
+
+    const inputValue = document.getElementById('value');
+    const errorMessage = document.getElementById('error-message');
+    const digits = "{{digits}}"; // Asume que "digits" es un valor que obtienes desde tu contexto.
+
+    inputValue.addEventListener('input', function() {
+        const valueNumber = parseFloat(inputValue.value);
+        const valueText = inputValue.value.trim(); // Convertimos el valor a texto y eliminamos espacios al principio y al final
+
+        if (isNaN(valueNumber) || valueText.length !== parseInt(digits)) {
+            errorMessage.textContent = 'Por favor, ingrese un número válido con ' + digits + ' dígitos.';
+            document.querySelectorAll('button[name="operations"]').forEach(function(button) {
+                    button.disabled = true;
+            });
+        } else {
+            document.querySelectorAll('button[name="operations"]').forEach(function(button) {
+                    button.disabled = false;
+            });
+            errorMessage.textContent = ''; // limpia el mensaje de error
+        }
+    });
+</script>
 
 
 

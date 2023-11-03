@@ -74,13 +74,18 @@
 
     <label for="tasa_reduccion">Ingrese el porcentaje de reducción de la estructura (se recomienda no pasar del doble del porcentaje de expansión):</label>
     <input type="number" name="tasa_reduccion" id="tasa_reduccion" required>
-
+    
     <label for="row">Ingrese el número de registros por cubeta:</label>
     <input type="number" name="row" id="row" required>
+
+    <label for="digits">Porfavor Elije un tamaño de digitos para tu clave:</label>
+    <input type="number" name="digits" id="digits" required>
+
     <input type="hidden" name="structure" value="{{ structure }}">
     <input type="hidden" name="hash" value="{{ hash }}">
     <div id="errorMessage" style="color: red; display: none;"></div>
     <input type="submit" value="Validar">
+
 </form>
 
 <script>
@@ -122,7 +127,6 @@
             errorMessageDiv.style.display = "block";
             return;
         }
-
 
         this.submit();
     

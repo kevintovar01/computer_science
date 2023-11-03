@@ -13,11 +13,15 @@
 <div class="custom-form">
 
   <form action="/Hash" method="post" style="text-align: center;">
-    <h1 class="text-center mb-4">Funciones Hash</h1>
-    {% if structure != None %}
+    <div class="new-container">
+
+      <h1 class="text-center mb-4">Funciones Hash</h1>
+      {% if structure != None %}
       <h3 class="text-center mb-4">La estructura que estas usando es Estructura {{ structure }}</h3>
-    {% endif %}
-    <h2 class="text-center mb-4">Ahora para la insercion de datos Que tipo de trasformación de clave (Hash) desea usar</h2>
+      {% endif %}
+      <h2 class="text-center mb-4">Ahora para la insercion de datos Que tipo de trasformación de clave (Hash) desea usar</h2>
+    </div>
+    
     <input type="hidden" name="structure" value="{{ structure }}">
     <button class="custom-button search" id="hashMod" value="hash mod" name="hash_fuction" type="submit"  >Hash Mod</button>
     <button class="custom-button profile" id="hashCuadrado" value="hash cuadrado" name="hash_fuction" type="submit" >Hash Cuadrado</button>
