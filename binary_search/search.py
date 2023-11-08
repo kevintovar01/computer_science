@@ -41,9 +41,9 @@ class Search:
     
 
     def sequence_search(self, objective):
-        for i,value in self.memory:
+        for i,value in enumerate(self.memory):
             if value == objective:
-                return f"La clave {objective} se encuentra en la posicion {i}"
+                return f"La clave {objective} se encuentra en la posicion {i+1}"
         return f"La clave {objective} No se encuentra en la estructura"
     
 

@@ -127,6 +127,8 @@
             <input type="hidden" name="structure" value="{{ structure }}">
             <input type="hidden" name="aux" value="False">
             <input type="text" name="value" id="value" class="form-control px-20" placeholder="value" required>
+            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="nombre" >
+            <input type="text" name="apellido" id="apellido" class="form-control" placeholder="apellido" >
             <div class="error-box red">
                 <span id="error-message" style="color: red;"></span>
             </div>
@@ -181,7 +183,7 @@
                 <th></th>
                 <!-- Encabezados de las columnas enumerados desde 0 -->
                 {% for col in my_structure.memoria[0] %}
-                    <th>Col {{ loop.index0 }}</th>
+                    <th>Cubeta {{ loop.index0 }}</th>
                 {% endfor %}
             </tr>
         </thead>
@@ -190,7 +192,7 @@
             {% for row in my_structure.memoria %}
                 <tr>
                     <!-- Número de fila en la primera columna -->
-                    <td>Fila {{ loop.index0 }}</td>
+                    <td>Registro {{ loop.index0 }}</td>
                     {% for item in row %}
                         <td>{{ item }}</td>
                     {% endfor %}
@@ -241,31 +243,35 @@
 
 <script>
 
-    $("button[name='operations'][value='sort']").on("click", function() {
-        // Remueve el atributo "required" del campo de entrada
-        $("#value").removeAttr("required");
-    });
+$("button[name='operations'][value='sort']").on("click", function() {
+    // Remueve el atributo "required" del campo de entrada
+    $("#value").removeAttr("required");
+});
 
-    const inputValue = document.getElementById('value');
-    const errorMessage = document.getElementById('error-message');
-    const digits = "{{digits}}"; // Asume que "digits" es un valor que obtienes desde tu contexto.
+const inputValue = document.getElementById('value');
+const errorMessage = document.getElementById('error-message');
+const digits = "{{digits}}"; // Asume que "digits" es un valor que obtienes desde tu contexto.
 
-    inputValue.addEventListener('input', function() {
-        const valueNumber = parseFloat(inputValue.value);
-        const valueText = inputValue.value.trim(); // Convertimos el valor a texto y eliminamos espacios al principio y al final
+inputValue.addEventListener('input', function() {
+    const valueText = inputValue.value.trim(); // Convertimos el valor a texto y eliminamos espacios al principio y al final
+    const isNumeric = !isNaN(valueText) && !isNaN(parseFloat(valueText)); // Comprobamos si el texto es numérico
+    const hasCorrectDigits = isNumeric && valueText.length === parseInt(digits);
+    const isNonEmptyText = valueText.length > 0 && !isNumeric;
 
-        if (isNaN(valueNumber) || valueText.length !== parseInt(digits)) {
-            errorMessage.textContent = 'Por favor, ingrese un número válido con ' + digits + ' dígitos.';
-            document.querySelectorAll('button[name="operations"]').forEach(function(button) {
-                    button.disabled = true;
-            });
-        } else {
-            document.querySelectorAll('button[name="operations"]').forEach(function(button) {
-                    button.disabled = false;
-            });
-            errorMessage.textContent = ''; // limpia el mensaje de error
-        }
-    });
+    if (!hasCorrectDigits && !isNonEmptyText) {
+        // Si el texto no tiene la longitud correcta o no es numérico y no vacío, muestra un mensaje de error.
+        errorMessage.textContent = 'Por favor, ingrese un número con ' + digits + ' dígitos o un texto no numérico.';
+        document.querySelectorAll('button[name="operations"]').forEach(function(button) {
+            button.disabled = true;
+        });
+    } else {
+        // Si pasa alguna de las condiciones, habilita los botones y limpia el mensaje de error.
+        document.querySelectorAll('button[name="operations"]').forEach(function(button) {
+            button.disabled = false;
+        });
+        errorMessage.textContent = '';
+    }
+});
 </script>
 
 

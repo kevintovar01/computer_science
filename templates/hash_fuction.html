@@ -11,7 +11,7 @@
     }
 
     .container {
-        max-height: 400px;
+        max-height: 479px;
         display: flex;
         justify-content: center;
         background: linear-gradient(135deg, rgb(114 41 186 / 52%) 0%, rgb(75 85 210 / 79%) 100%);
@@ -158,7 +158,9 @@
         <input type="hidden" name="colision_name" value="{{colision_name}}">
 
         <input type="hidden" name="aux" value="False">
-        <input type="text" name="value" id="value" class="form-control" placeholder="value" required>
+        <input type="text" name="value" id="value" class="form-control" style="margin-top: 1%" placeholder="value" required>
+        <input type="text" name="nombre" id="nombre" class="form-control" style="margin-top: 1%" placeholder="nombre" >
+        <input type="text" name="apellido" id="apellido" class="form-control" style="margin-top: 1%" placeholder="apellido" >
         <div class="error-box red">
             <span id="error-message" style="color: red;"></span>
         </div>
@@ -210,7 +212,7 @@
                         <th></th>
                         <!-- Encabezados de las columnas enumerados desde 0 -->
                         {% for col in hash.anidado[0] %}
-                            <th>Col {{ loop.index0 }}</th>
+                            <th>Col {{ loop.index }}</th>
                         {% endfor %}
                     </tr>
                 </thead>
@@ -219,7 +221,7 @@
                     {% for row in hash.anidado %}
                         <tr>
                             <!-- Número de fila en la primera columna -->
-                            <td>{{ loop.index0 }}</td>
+                            <td>{{ loop.index }}</td>
                             {% for item in row %}
                                 <td>{{ item }}</td>
                             {% endfor %}
@@ -260,30 +262,35 @@
 
 
 <script>
+$("button[name='operations'][value='sort']").on("click", function() {
+    // Remueve el atributo "required" del campo de entrada
+    $("#value").removeAttr("required");
+});
 
-    $("button[name='operations'][value='sort']").on("click", function() {
-        // Remueve el atributo "required" del campo de entrada
-        $("#value").removeAttr("required");
-    });
-    const inputValue = document.getElementById('value');
-    const errorMessage = document.getElementById('error-message');
-    const digits = "{{digits}}"; // Asume que "digits" es un valor que obtienes desde tu contexto.
+const inputValue = document.getElementById('value');
+const errorMessage = document.getElementById('error-message');
+const digits = "{{digits}}"; // Asume que "digits" es un valor que obtienes desde tu contexto.
 
-    inputValue.addEventListener('input', function() {
-        const valueNumber = parseFloat(inputValue.value);
-        const valueText = inputValue.value.trim(); // Convertimos el valor a texto y eliminamos espacios al principio y al final
+inputValue.addEventListener('input', function() {
+    const valueText = inputValue.value.trim(); // Convertimos el valor a texto y eliminamos espacios al principio y al final
+    const isNumeric = !isNaN(valueText) && !isNaN(parseFloat(valueText)); // Comprobamos si el texto es numérico
+    const hasCorrectDigits = isNumeric && valueText.length === parseInt(digits);
+    const isNonEmptyText = valueText.length > 0 && !isNumeric;
 
-        if (isNaN(valueNumber) || valueText.length !== parseInt(digits)) {
-            errorMessage.textContent = 'Por favor, ingrese un número válido con ' + digits + ' dígitos.';
-            document.querySelectorAll('button[name="operations"]').forEach(function(button) {
-                    button.disabled = true;
-            });
-        } else {
-            document.querySelectorAll('button[name="operations"]').forEach(function(button) {
-                    button.disabled = false;
-            });
-            errorMessage.textContent = ''; // limpia el mensaje de error
-        }
-    });
+    if (!hasCorrectDigits && !isNonEmptyText) {
+        // Si el texto no tiene la longitud correcta o no es numérico y no vacío, muestra un mensaje de error.
+        errorMessage.textContent = 'Por favor, ingrese un número con ' + digits + ' dígitos o un texto no numérico.';
+        document.querySelectorAll('button[name="operations"]').forEach(function(button) {
+            button.disabled = true;
+        });
+    } else {
+        // Si pasa alguna de las condiciones, habilita los botones y limpia el mensaje de error.
+        document.querySelectorAll('button[name="operations"]').forEach(function(button) {
+            button.disabled = false;
+        });
+        errorMessage.textContent = '';
+    }
+});
+
 </script>
 {% endblock %}

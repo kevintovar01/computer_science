@@ -167,6 +167,10 @@ class HashTrasformation:
 
         code = [element[i] for i in range(aux) if i%2 == self.order]
         index = int(''.join(map(str, code))) + 1
+
+        if index >= self.length:
+            index = int(code[0])
+
         return index
 
     """

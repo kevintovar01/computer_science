@@ -19,11 +19,14 @@ hash_fuction = None
 fuction_colision = None
 
 
+register = {}
+
+
 
 
 @app.route('/') #route
 def home():
-    global my_hash, colisions, digits, my_structure, function, fuction_colision, hash_fuction
+    global my_hash, colisions, digits, my_structure, function, fuction_colision, hash_fuction, register
     my_hash = None
     colisions = None
     digits = None
@@ -31,7 +34,7 @@ def home():
 
     function = None
     hash_fuction = None
-
+    register = {}
     fuction_colision = None
     return render_template('home.html')
 
@@ -84,14 +87,19 @@ def conditions():
 def view_structures():
     global function
     global my_hash
+    global register
     operation = request.form.get('operations')
     value = int(request.form.get('value'))
+    name = request.form.get('nombre')
+    last_name = request.form.get('apellido')
     digits = request.form.get('digits')
     
+    aux = value
 
     if operation == 'insert':
         messages, value, index = my_hash.insert(value, function)
         value, messages = my_structure.agregar_clave(index, value)
+        register[aux] = name,last_name
     elif operation == 'delete':
         value, messages= my_structure.eliminar_clave(value)  #fuction is our Hash
     elif operation == 'search':
@@ -101,13 +109,16 @@ def view_structures():
             messages = f"La clave {value} no fue encontrada en la estructura"
         elif messages["tipo"] == "Memoria Principal":
             messages = f"El valor {value} se encontro en la columna {messages['indice']} fila {messages['fila']}"
+            messages += f" la clave esta vinculada al siguiente registro {register[aux]}"
         else:
             messages = f"El valor se encontro en la estructura de colisiones posicion {messages['posicion']}"
+            messages += f" la clave esta vinculada al siguiente registro {register[aux]}"
        
     else:
         digits = value
         messages = 'La longitud a sido cambiada'
         my_hash.reset_list()
+        register = {}
 
     context = {
                 'hash': my_hash,
@@ -205,6 +216,7 @@ def hash():
 
     if function != aux:
         my_hash.reset_list()
+        register = {}
     
     if hash_truncamiento == '0' or hash_truncamiento == '1':
         my_hash.order = int(hash_truncamiento)
@@ -285,22 +297,32 @@ def veryfication():
 @app.route('/Operation', methods=['POST'])
 def operations():
     global digits
+    global register
 
     operation = request.form.get('operations')
     colision_name = request.form.get('colision_name')
     name_colision = request.form.get('name_colision')
     value = int(request.form.get('value'))
+    name = request.form.get('nombre')
+    last_name = request.form.get('apellido')
 
+
+
+    print(value)
+    aux = value
     if operation == 'insert':
         messages, value, index = my_hash.insert(value, function, fuction_colision, name_colision)
+        register[aux] = name, last_name
     elif operation == 'delete':
         messages= my_hash.delete(value, function, fuction_colision, colision_name)  #fuction is our Hash
     elif operation == 'search':
         value, index, messages=my_hash.search(value, function, fuction_colision)
+        messages += f" la clave esta vinculada al siguiente registro {register[aux]}"
     else:
         digits = value
         messages = 'La longitud a sido cambiada'
         my_hash.reset_list()
+        register = {}
 
     context = {
                 'hash': my_hash,
@@ -316,7 +338,10 @@ def operations():
 @app.route('/Binary_operation', methods=['POST'])
 def binary_operation():
     global digits
+    global register
     operation = request.form.get('operations')
+    name = request.form.get('nombre')
+    last_name = request.form.get('apellido')
     try:
         value = int(request.form.get('value'))
     except:
@@ -326,8 +351,12 @@ def binary_operation():
     
     print(search_type)
 
+    index = value
+
     if operation == 'insert':    
         messages = my_hash.append_list(value)
+        register[index] = name, last_name 
+        
         # messages = f"La clave {value} ha sido insertada"
     elif operation == 'delete':
         messages= my_hash.delete(value)  #fuction is our Hash
@@ -336,14 +365,17 @@ def binary_operation():
     elif operation == 'search':
         if search_type == 'Secuencial':
             messages = my_hash.sequence_search(value)
+            messages += f" la clave esta vinculada al siguiente registro {register[index]}"
         else:
             aux = my_hash.bubble_sort()
             messages = my_hash.binary_search(value)
-            messages += aux+", antes de la busqueda"
+            messages += aux+", antes de la busqueda,"
+            messages += f" la clave esta vinculada al siguiente registro {register[index]}"
     else:
         digits = value
         messages = 'La longitud a sido cambiada'
         my_hash.memory = []
+        register = {}
 
 
     context = {

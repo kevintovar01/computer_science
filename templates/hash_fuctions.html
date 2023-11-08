@@ -25,7 +25,9 @@
     <input type="hidden" name="structure" value="{{ structure }}">
     <button class="custom-button search" id="hashMod" value="hash mod" name="hash_fuction" type="submit"  >Hash Mod</button>
     <button class="custom-button profile" id="hashCuadrado" value="hash cuadrado" name="hash_fuction" type="submit" >Hash Cuadrado</button>
-    <button class="custom-button cart" id="hashTruncamiento" name="hash_fuction" type="button">Hash Truncamiento</button>
+    {% if structure == None %}
+      <button class="custom-button cart" id="hashTruncamiento" name="hash_fuction" type="button">Hash Truncamiento</button>
+    {% endif %}
     <button class="custom-button feedback" id="hashPlegamientoPorMultiplicaion" value="hash plegamiento multiplicacion" name="hash_fuction" type="submit">Hash Plegamineto Por Multiplicacion</button>
     <button class="custom-button settings" id="hashPlegamientoPorSuma" value="hash plegamiento suma" name="hash_fuction" type="submit">Hash Plegamiento Por Suma</button>
       
