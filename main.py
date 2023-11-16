@@ -1,7 +1,7 @@
 from function_hash.hash_trasformation import HashTrasformation
 from function_hash.hash_colisions import HashColision
 from memorys.EstructurasParciales import Est_Parcial
-from binary_search.search import Search
+from search.search import Search
 
 from flask import Flask, render_template, request, redirect, url_for
 
